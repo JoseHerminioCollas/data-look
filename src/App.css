@@ -12,3 +12,12 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.view-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.view-container div {
+  background-color: green;
+  margin: 0.25em;
+}

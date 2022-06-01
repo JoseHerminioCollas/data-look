@@ -2,8 +2,8 @@ import DataView from 'data-view/data-view';
 
 describe('DataView', () => {
     it('should return and object', () => {
-        expect(DataView([])).toBeTruthy();
-    });
+        expect(DataView([{ id: 'x' }])).toBeTruthy();
+    })
     it('should get values of dataViews', () => {
         const expected = [{ id: 'x', name: 'x' }];
         const dataView = DataView(expected);
