@@ -1,28 +1,29 @@
 import { BehaviorSubject } from 'rxjs';
 
-interface DataItem {
+type DatumTypes = number | string | boolean | null 
+interface Datum {
     id: string
     name: string
-    [key: string]: number | string | boolean
+    [key: string]: DatumTypes | DatumTypes[]
 }
-type Data = DataItem[]; // the data that is received
-interface Item {
+type Data = Datum[]; 
+interface DatumStyle {
     id: string
     background?: string
     isVisible?: boolean
-    data: DataItem
+    data: Datum
 }
-type Items = { [key: string]: Item }; // viewItems
-type GetAll = () => Items;
-type Listen = (cb: (item: Item) => void) => {unsubscribe: () => void};
-type Set = (item: Item) => void
-type DadaViewI = (data: Data) => {
+type DatumStyles = { [key: string]: DatumStyle };
+type GetAll = () => DatumStyles;
+type Listen = (cb: (item: DatumStyle) => void) => {unsubscribe: () => void};
+type Set = (item: DatumStyle) => void
+type DataStyleI = (data: Data) => {
     getAll: GetAll, listen: Listen, set: Set
 };
 
-const DataView: DadaViewI = (data: Data) => {
+const DataStyle: DataStyleI = (data) => {
     if (data.length < 1) throw 'data has no values'
-    const items: Items = data.reduce((acc, v, i) => {
+    const items: DatumStyles = data.reduce((acc, v) => {
         return {
             ...acc, [v.id]:
             {
@@ -34,7 +35,7 @@ const DataView: DadaViewI = (data: Data) => {
             }
         };
     }, {});
-    const itemUpdate$ = new BehaviorSubject<Item>(
+    const itemUpdate$ = new BehaviorSubject<DatumStyle>(
         Object.values(items)[0]
     )
     itemUpdate$.subscribe(v => {
@@ -52,4 +53,4 @@ const DataView: DadaViewI = (data: Data) => {
     };
 }
 
-export default DataView;
+export default DataStyle;

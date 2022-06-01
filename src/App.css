@@ -20,4 +20,6 @@
 .view-container div {
   background-color: green;
   margin: 0.25em;
+  transition-property: background;
+  transition-duration: 2s;
 }
