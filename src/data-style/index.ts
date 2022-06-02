@@ -7,13 +7,13 @@ interface Datum {
     [key: string]: DatumTypes | DatumTypes[]
 }
 type Data = Datum[]; 
-interface DatumStyle {
+export interface DatumStyle {
     id: string
     background?: string
     isVisible?: boolean
     data: Datum
 }
-type DataStyles = { [key: string]: DatumStyle };
+export type DataStyles = { [key: string]: DatumStyle };
 type GetAll = () => DataStyles;
 type Listen = (cb: (item: DatumStyle) => void) => {unsubscribe: () => void};
 type Set = (item: DatumStyle) => void
