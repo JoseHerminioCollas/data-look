@@ -19,3 +19,11 @@
   transition-property: background;
   transition-duration: 2s;
 }
+.view-container dl {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0.5em;
+}
+.view-container dd {
+  margin: 0;
+}
