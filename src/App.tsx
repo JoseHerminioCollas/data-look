@@ -23,8 +23,8 @@ function App() {
   const dataStyle = DataStyle(dataList);
   const [data, setData] = useState(dataStyle.getAll())
   useEffect(() => {
-    const sub = dataStyle.listen(v => {
-      setData(dVState => ({ ...dVState, [v.id]: v }))
+    const sub = dataStyle.listen(dS => {
+      setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     })
     engine(dataStyle)
     return () => sub.unsubscribe()

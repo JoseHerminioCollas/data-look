@@ -13,8 +13,8 @@ interface DatumStyle {
     isVisible?: boolean
     data: Datum
 }
-type DatumStyles = { [key: string]: DatumStyle };
-type GetAll = () => DatumStyles;
+type DataStyles = { [key: string]: DatumStyle };
+type GetAll = () => DataStyles;
 type Listen = (cb: (item: DatumStyle) => void) => {unsubscribe: () => void};
 type Set = (item: DatumStyle) => void
 type DataStyleI = (data: Data) => {
@@ -23,7 +23,7 @@ type DataStyleI = (data: Data) => {
 
 const DataStyle: DataStyleI = (data) => {
     if (data.length < 1) throw 'data has no values'
-    const items: DatumStyles = data.reduce((acc, v) => {
+    const items: DataStyles = data.reduce((acc, v) => {
         return {
             ...acc, [v.id]:
             {
