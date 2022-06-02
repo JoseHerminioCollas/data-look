@@ -11,6 +11,7 @@ export interface DatumStyle {
     id: string
     background?: string
     isVisible?: boolean
+    showDetails: boolean
     size?: string
     data: Datum
 }
@@ -25,6 +26,7 @@ const initV: DatumStyle = {
     id: 'x',
     background: '#ccc',
     isVisible: true,
+    showDetails: true,
     size: 'SML',
     data: {id: 'x', name: 'x'}
 }
