@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import 'App.css';
-import DataStyle from 'data-style';
+import DataStyle, { Data } from 'data-style';
 import DataLook from 'components/data-look';
 import getList from 'get-list';
+import sampleData from 'data';
 import engine from 'engine';
 
 function App() {
-  const dataList = getList()
+  const sampleDataList: Data = sampleData.data;
   const dataListA = getList()
-  const dataStyle = DataStyle(dataList);
+  const dataStyle = DataStyle(sampleDataList);
   const dataStyleA = DataStyle(dataListA);
   const [data, setData] = useState(dataStyle.getAll())
   const [dataA, setDataA] = useState(dataStyleA.getAll())
@@ -19,8 +20,8 @@ function App() {
     const subA = dataStyleA.listen(dS => {
       setDataA(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     })
-    engine(dataStyle, 100)
-    engine(dataStyleA, 1000)
+    engine(dataStyle, 1000)
+    engine(dataStyleA, 500)
     return () => { sub.unsubscribe(); subA.unsubscribe() }
   }, [])
 
