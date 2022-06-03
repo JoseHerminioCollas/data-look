@@ -17,11 +17,13 @@ export interface DatumStyle {
 }
 export type DataStyles = { [key: string]: DatumStyle };
 type GetAll = () => DataStyles;
+type Get = (id: string) => DatumStyle;
 type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
 type Set = (item: DatumStyle) => void
 type SetId = (id: string, config: { [key: string]: DatumTypes }) => void;
+type Toggle = (id: string) => void
 type DataStyleI = (data: Data) => {
-    getAll: GetAll, listen: Listen, set: Set, setId: SetId
+    getAll: GetAll, listen: Listen, set: Set, setId: SetId, toggle: Toggle
 };
 const initV: DatumStyle = {
     id: 'x',
@@ -53,12 +55,16 @@ const DataStyle: DataStyleI = (data) => {
         items[v.id] = v;
     })
     const getAll: GetAll = () => items;
+    const get: Get = id => items[id]
     const set: Set = v => itemUpdate$.next(v)
     const setId: SetId = (id, config) => {
         const styleItem = getAll()[id]
-        console.log('====', styleItem, config)
         set({ ...styleItem, ...config })
         itemUpdate$.next({ ...styleItem, ...config })
+    }
+    const toggle: Toggle = (id) => {
+        const styleItem = get(id)
+        set({ ...styleItem, showDetails: !styleItem.showDetails })
     }
     const listen: Listen = cb => itemUpdate$.subscribe(v => cb(v))
 
@@ -67,6 +73,7 @@ const DataStyle: DataStyleI = (data) => {
         listen,
         set,
         setId,
+        toggle,
     };
 }
 
