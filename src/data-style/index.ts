@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 
 type DatumTypes = number | string | boolean | null
-interface Datum {
+export interface Datum {
     id: string | number
     name: string
     [key: string]: DatumTypes | DatumTypes[]
