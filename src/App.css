@@ -5,17 +5,17 @@
   color: white;
 }
 
-.view-container {
+.data-look-a {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items: stretch;
+  align-items: flex-start;
   background: #ccc;
   cursor: pointer;
-  height: 50vh;
+  /* height: 50vh; */
 }
 
-.view-container>div {
+.data-look-a>div {
   background-color: green;
   padding: 0.5em;
   transition-property: background;
@@ -23,7 +23,7 @@
   margin: 0.25em;
 }
 
-.view-container dl {
+.data-look-a dl {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -35,31 +35,41 @@
   transition-duration: 1s;
 }
 
-.view-container dl div {
+.data-look-a dl div {
   display: flex;
   margin: 1px;
   margin: 0.25em;
 }
 
-.view-container dl.hide-details {
+.data-look-a dl.hide-details {
   max-height: 0;
   max-width: 0;
   overflow: hidden;
 }
 
-.view-container .small {
+.data-look-a .small {
   font-size: 1em;
 }
 
-.view-container .large {
+.data-look-a .large {
   font-size: 1.3em;
   margin: 0;
 }
 
-.view-container dt::after {
+.data-look-a dt::after {
   content: ' : ';
 }
 
-.view-container dd {
+.data-look-a dd {
   margin: 0 0.5em;
+}
+
+.data-look-b {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
+  background: #ff0;
+  cursor: pointer;
+  /* height: 10vh; */
 }

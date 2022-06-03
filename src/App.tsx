@@ -35,10 +35,12 @@ function App() {
         DataLook
       </header>
       <DataLook
+        className='data-look-a'
         onClick={dataLookOnClick}
         dataStyles={data}
       />
       <DataLook
+        className='data-look-b'
         dataStyles={dataA}
       />
     </div>

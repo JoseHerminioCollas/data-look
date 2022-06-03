@@ -4,14 +4,15 @@ import { DataStyles, DatumStyle } from 'data-style'
 type DataLookI = (props: {
   dataStyles: DataStyles,
   onClick?: (k: string) => void
+  className: string
 }) => React.ReactElement
 
-const DataLook: DataLookI = ({ dataStyles, onClick = () => { } }) => {
+const DataLook: DataLookI = ({ dataStyles, onClick = () => { }, className }) => {
   const detailList = ['date_added', 'a', 'b', 'c', 'd', 'max_supply',
   ]
 
   return (<div
-    className='view-container'
+    className={className}
   >
     {
       Object.entries(dataStyles).map(([k, v]) => (
@@ -20,7 +21,7 @@ const DataLook: DataLookI = ({ dataStyles, onClick = () => { } }) => {
           style={{
             background: v.background
           }}
-          onClick={() => onClick(k)} // send the whole object here for a toggle effect
+          onClick={() => onClick(k)}
         >
           <h3
             className={v.showDetails ? 'small' : 'large'}
