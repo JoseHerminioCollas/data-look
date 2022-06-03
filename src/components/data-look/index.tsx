@@ -5,11 +5,15 @@ type DataLookI = (props: {
   dataStyles: DataStyles,
   onClick?: (k: string) => void
   className: string
+  detailsList: string[]
 }) => React.ReactElement
 
-const DataLook: DataLookI = ({ dataStyles, onClick = () => { }, className }) => {
-  const detailList = ['date_added', 'a', 'b', 'c', 'd', 'max_supply',
-  ]
+const DataLook: DataLookI = ({
+  dataStyles,
+  onClick = () => { },
+  className,
+  detailsList,
+}) => {
 
   return (<div
     className={className}
@@ -28,7 +32,7 @@ const DataLook: DataLookI = ({ dataStyles, onClick = () => { }, className }) => 
           >{v.data.name}</h3>
           <dl key={k} className={v.showDetails ? '' : 'hide-details'}>
             {Object.entries(v.data)
-              .filter(([k2, v2]) => detailList.includes(k2))
+              .filter(([k2, v2]) => detailsList.includes(k2))
               .map(([k3, v3]) => {
                 let dt = k3
                   .split('_')

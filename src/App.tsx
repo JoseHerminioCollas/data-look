@@ -5,13 +5,15 @@ import DataLook from 'components/data-look';
 import getList from 'get-list';
 import sampleData from 'data';
 import engine from 'engine';
+import detailListA from 'details-list-a';
+import detailListB from 'detail-list-b';
 
 function App() {
   const sampleDataList: Data = sampleData.data;
   const dataListA = getList()
   const dataStyle = DataStyle(sampleDataList);
   const dataStyleA = DataStyle(dataListA);
-  const [displayStyleState, ] = useState(dataStyle)
+  const [displayStyleState,] = useState(dataStyle)
   const [data, setData] = useState(dataStyle.getAll())
   const [dataA, setDataA] = useState(dataStyleA.getAll())
   useEffect(() => {
@@ -38,10 +40,12 @@ function App() {
         className='data-look-a'
         onClick={dataLookOnClick}
         dataStyles={data}
+        detailsList={detailListA}
       />
       <DataLook
         className='data-look-b'
         dataStyles={dataA}
+        detailsList={detailListB}
       />
     </div>
   );
