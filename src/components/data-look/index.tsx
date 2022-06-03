@@ -8,12 +8,6 @@ type DataLookI = (props: {
 
 const DataLook: DataLookI = ({ dataStyles, onClick = () => { } }) => {
   const detailList = ['date_added', 'a', 'b', 'c', 'd', 'max_supply',
-    "circulating_supply",
-    "total_supply",
-    "cmc_rank",
-    "self_reported_circulating_supply",
-    "self_reported_market_cap",
-    "last_updated",
   ]
 
   return (<div
