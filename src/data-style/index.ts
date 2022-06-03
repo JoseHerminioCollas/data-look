@@ -19,16 +19,17 @@ export type DataStyles = { [key: string]: DatumStyle };
 type GetAll = () => DataStyles;
 type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
 type Set = (item: DatumStyle) => void
+type SetId = (id: string, config: { [key: string]: DatumTypes }) => void;
 type DataStyleI = (data: Data) => {
-    getAll: GetAll, listen: Listen, set: Set
+    getAll: GetAll, listen: Listen, set: Set, setId: SetId
 };
 const initV: DatumStyle = {
     id: 'x',
-    background: '#ccc',
+    background: '#eee',
     isVisible: true,
-    showDetails: true,
+    showDetails: false,
     size: 'SML',
-    data: {id: 'x', name: 'x'}
+    data: { id: 'x', name: 'x' }
 }
 const DataStyle: DataStyleI = (data) => {
     if (data.length < 1) throw 'data has no values'
@@ -47,17 +48,25 @@ const DataStyle: DataStyleI = (data) => {
         Object.values(items)[0]
     )
     itemUpdate$.subscribe(v => {
+        console.log('sub', v)
         if (!v) return;
         items[v.id] = v;
     })
     const getAll: GetAll = () => items;
     const set: Set = v => itemUpdate$.next(v)
+    const setId: SetId = (id, config) => {
+        const styleItem = getAll()[id]
+        console.log('====', styleItem, config)
+        set({ ...styleItem, ...config })
+        itemUpdate$.next({ ...styleItem, ...config })
+    }
     const listen: Listen = cb => itemUpdate$.subscribe(v => cb(v))
 
     return {
         getAll,
         listen,
         set,
+        setId,
     };
 }
 

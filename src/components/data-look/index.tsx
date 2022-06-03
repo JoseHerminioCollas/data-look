@@ -1,11 +1,24 @@
 import React from "react";
-import { DataStyles } from 'data-style'
+import { DataStyles, DatumStyle } from 'data-style'
 
-type DataLookI = (props: { dataStyles: DataStyles }) => React.ReactElement
+type DataLookI = (props: {
+  dataStyles: DataStyles,
+  onClick?: (k: string) => void
+}) => React.ReactElement
 
-const DataLook: DataLookI = ({ dataStyles }) => {
-  const detailList = ['date_added', 'a', 'b', 'c', 'd', 'max_supply']
-  return (<div className='view-container'>
+const DataLook: DataLookI = ({ dataStyles, onClick = () => { } }) => {
+  const detailList = ['date_added', 'a', 'b', 'c', 'd', 'max_supply',
+    "circulating_supply",
+    "total_supply",
+    "cmc_rank",
+    "self_reported_circulating_supply",
+    "self_reported_market_cap",
+    "last_updated",
+  ]
+
+  return (<div
+    className='view-container'
+  >
     {
       Object.entries(dataStyles).map(([k, v]) => (
         <div
@@ -13,8 +26,11 @@ const DataLook: DataLookI = ({ dataStyles }) => {
           style={{
             background: v.background
           }}
+          onClick={() => onClick(k)} // send the whole object here for a toggle effect
         >
-          {v.data.name}
+          <h3
+            className={v.showDetails ? 'small' : 'large'}
+          >{v.data.name}</h3>
           <dl key={k} className={v.showDetails ? '' : 'hide-details'}>
             {Object.entries(v.data)
               .filter(([k2, v2]) => detailList.includes(k2))

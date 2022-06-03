@@ -11,19 +11,26 @@ function App() {
   const dataListA = getList()
   const dataStyle = DataStyle(sampleDataList);
   const dataStyleA = DataStyle(dataListA);
+  const [displayStyleState, setdisplayStyleState] = useState(dataStyle)
   const [data, setData] = useState(dataStyle.getAll())
   const [dataA, setDataA] = useState(dataStyleA.getAll())
   useEffect(() => {
     const sub = dataStyle.listen(dS => {
+      console.log('xxxxxxxx', dS)
       setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     })
     const subA = dataStyleA.listen(dS => {
       setDataA(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     })
-    engine(dataStyle, 1000)
-    engine(dataStyleA, 500)
+    // engine(dataStyle, 1000)
+    // engine(dataStyleA, 500)
+    // dataStyle.setId('1', { background: 'blue' })
     return () => { sub.unsubscribe(); subA.unsubscribe() }
   }, [])
+  const dataLookOnClick = (v: any) => {
+    displayStyleState.setId(v, { background: 'green'  })
+    // toggle details
+  }
 
   return (
     <div className="App">
@@ -31,6 +38,7 @@ function App() {
         DataLook
       </header>
       <DataLook
+        onClick={dataLookOnClick}
         dataStyles={data}
       />
       <DataLook
