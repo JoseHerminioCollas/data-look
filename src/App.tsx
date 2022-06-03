@@ -3,9 +3,9 @@ import 'App.css';
 import DataStyle, { Data, DatumStyle } from 'data-style';
 import DataLook from 'components/data-look';
 import getList from 'get-list';
-import sampleData from 'data';
+import sampleData from 'data-a';
 import engine from 'engine';
-import detailListA from 'details-list-a';
+import detailListA from 'detail-list-a';
 import detailListB from 'detail-list-b';
 
 function App() {
