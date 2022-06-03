@@ -9,9 +9,10 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  align-items: flex-start;
+  align-items: stretch;
   background: #ccc;
   cursor: pointer;
+  height: 50vh;
 }
 
 .view-container>div {
@@ -26,9 +27,11 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  margin: 0.5em;
-  max-height: 360px;
+  margin: 0;
+  max-height: 500px;
+  max-width: 500px;
   transition-property: max-height 3s;
+  transition-property: max-width 3s;
   transition-duration: 1s;
 }
 
@@ -40,17 +43,18 @@
 
 .view-container dl.hide-details {
   max-height: 0;
+  max-width: 0;
   overflow: hidden;
 }
+
 .view-container .small {
   font-size: 1em;
 }
+
 .view-container .large {
-  font-size: 2em;
+  font-size: 1.3em;
+  margin: 0;
 }
-/* .view-container h3 {
-  font-size: 122px;
-} */
 
 .view-container dt::after {
   content: ' : ';
