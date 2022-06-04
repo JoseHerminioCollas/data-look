@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Toggle } from '@fluentui/react/lib/Toggle';
 import 'App.css';
 import DataStyle, { Data, DatumStyle } from 'data-style';
 import DataLook from 'components/data-look';
@@ -6,7 +7,6 @@ import getList from 'get-list';
 import sampleData from 'data-a';
 import engine from 'engine';
 import detailListA from 'detail-list-a';
-import detailListB from 'detail-list-b';
 
 function App() {
   const sampleDataList: Data = sampleData.data;
@@ -30,23 +30,38 @@ function App() {
   const dataLookOnClick = (k: string) => {
     displayStyleState.toggle(k);
   }
-
+  const [selectedItem, setSelectedItem] = useState(null)
+  const [showDetails, setShowdetails] = useState(false)
+  const onSelectChange = (e: any) => {
+    setSelectedItem(e.target.value)
+    const b = displayStyleState.get(e.target.value).showDetails
+    setShowdetails(b)
+  }
+  function _onChange(ev: React.MouseEvent<HTMLElement>, checked?: boolean) {
+    if (!selectedItem || checked === undefined) return
+    setShowdetails(checked)
+    displayStyleState.setId(selectedItem, { showDetails: checked })
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        DataLook
-      </header>
       <DataLook
         className='data-look-a'
         onClick={dataLookOnClick}
         dataStyles={data}
         detailsList={detailListA}
       />
-      <DataLook
-        className='data-look-b'
-        dataStyles={dataA}
-        detailsList={detailListB}
-      />
+      <div className="bottom-control">
+        <h3>DataLook</h3>
+        <select name="select" placeholder='select' onChange={(e) => onSelectChange(e)}>
+          <option value="" disabled selected  >Select an Item</option>
+          {
+            Object.entries(displayStyleState.getAll())
+              .map(([, value]) => (
+                <option value={value.id}> {value.data.name}</option>)
+              )}
+        </select>
+        <Toggle checked={showDetails} label="Show Details" defaultChecked onText="On" offText="Off" onChange={_onChange} />
+      </div>
     </div>
   );
 }

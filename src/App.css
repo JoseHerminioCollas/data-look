@@ -1,10 +1,21 @@
-.App-header {
-  text-align: center;
-  background-color: #555;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.bottom-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #ccc;
+  opacity: 0.9;
+  padding: 0.25em;
 }
-
+.bottom-control select {
+  font-size: 1.1em;
+  margin: 0 1.5em;
+}
+.bottom-control h3 {
+  margin: 0 2em;
+}
 .data-look-a {
   display: flex;
   flex-wrap: wrap;
@@ -12,7 +23,6 @@
   align-items: flex-start;
   background: #ccc;
   cursor: pointer;
-  /* height: 50vh; */
 }
 
 .data-look-a>div {

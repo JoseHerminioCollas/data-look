@@ -23,7 +23,7 @@ type Set = (item: DatumStyle) => void
 type SetId = (id: string, config: { [key: string]: DatumTypes }) => void;
 type Toggle = (id: string) => void
 type DataStyleI = (data: Data) => {
-    getAll: GetAll, listen: Listen, set: Set, setId: SetId, toggle: Toggle
+    getAll: GetAll, get: Get, listen: Listen, set: Set, setId: SetId, toggle: Toggle
 };
 const initV: DatumStyle = {
     id: 'x',
@@ -50,7 +50,6 @@ const DataStyle: DataStyleI = (data) => {
         Object.values(items)[0]
     )
     itemUpdate$.subscribe(v => {
-        console.log('sub', v)
         if (!v) return;
         items[v.id] = v;
     })
@@ -70,6 +69,7 @@ const DataStyle: DataStyleI = (data) => {
 
     return {
         getAll,
+        get,
         listen,
         set,
         setId,
