@@ -1,13 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { Toggle, mergeStyleSets } from '@fluentui/react';
+import { Toggle, mergeStyles } from '@fluentui/react';
 import DataStyle, { Data, Datum } from 'data-style';
 import DataLook from 'components/data-look';
 import getList from 'get-list';
 import sampleData from 'data-c';
 // import engine from 'engine';
 
-const styles = mergeStyleSets({
-  dataLook: {
+const controlAreaStyles = mergeStyles({
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: '#ccc',
+    opacity: '0.9',
+    padding: '0.25em',
+    selectors: {
+      'select': {
+        fontSize: '1.1em',
+        margin: '0 1.5em'
+      },
+      'h3': {
+        margin: '0 2em'
+      }
+    }
+})
+const dataLookStyles = mergeStyles({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
@@ -54,30 +73,9 @@ const styles = mergeStyleSets({
       'dd': {
         margin: '0 0.5em'
       }
-    },
   },
-  bottomControl: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'fixed',
-    bottom: 0,
-    width: '100%',
-    backgroundColor: '#ccc',
-    opacity: '0.9',
-    padding: '0.25em',
-    selectors: {
-      'select': {
-        fontSize: '1.1em',
-        margin: '0 1.5em'
-      },
-      'h3': {
-        margin: '0 2em'
-      }
-    }
-    },
 });
-const controlStyles = {
+const toggleStyles = {
   root: {
     margin: '0 30px 20px 0',
     maxWidth: '300px',
@@ -140,11 +138,11 @@ function App() {
   return (
     <div className="App">
       <DataLook
-        className={styles.dataLook}
+        className={dataLookStyles}
         onClick={dataLookOnClick}
         dataStyles={data}
       />
-      <div className={styles.bottomControl}>
+      <div className={controlAreaStyles}>
         <h3>DataLook</h3>
         <select name="select" onChange={(e) => onSelectChange(e)}>
           <option value="" disabled selected  >Select an Item</option>
@@ -155,7 +153,7 @@ function App() {
               )}
         </select>
         <Toggle
-          styles={controlStyles}
+          styles={toggleStyles}
           checked={showDetails}
           label="Show Details"
           defaultChecked
