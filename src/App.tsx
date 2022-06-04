@@ -26,53 +26,11 @@ const controlAreaStyles = mergeStyles({
       }
     }
 })
-const dataLookStyles = mergeStyles({
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    alignItems: 'flex-start',
-    cursor: 'pointer',
-    height: 360,
+const dataLookStyles = mergeStyles({  
     selectors: {
-      '>div': {
-        color: '#111',
-        padding: '0.5em',
-        transitionProperty: 'background',
-        transitionDuration: '1s',
-        margin: '0.25em',
+      ' > div': {
+        color: '#333',
       },
-      ' dl': {
-        display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'wrap',
-        margin: 0,
-        maxHeight: '500px',
-        maxWidth: '500px',
-        transitionProperty: 'max-height 3s',
-        transitionDuration: '1s',
-      },
-      ' dl div': {
-        display: 'flex',
-        margin: '0.25em',
-      },
-      ' dl.hide-details': {
-        maxHeight: 0,
-        maxWidth: 0,
-        overflow: 'hidden',
-      },
-      '.small': {
-        fontSize: '1em'
-      },
-      '.large': {
-        fontSize: '1.3em',
-        margin: 0
-      },
-      'dt::after ': {
-        content: ' : '
-      },
-      'dd': {
-        margin: '0 0.5em'
-      }
   },
 });
 const toggleStyles = {
