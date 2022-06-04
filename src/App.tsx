@@ -1,12 +1,88 @@
 import React, { useEffect, useState } from 'react';
-import { Toggle } from '@fluentui/react/lib/Toggle';
-import 'App.css';
+import { Toggle, mergeStyleSets } from '@fluentui/react';
 import DataStyle, { Data, Datum } from 'data-style';
 import DataLook from 'components/data-look';
 import getList from 'get-list';
 import sampleData from 'data-c';
 // import engine from 'engine';
 
+const styles = mergeStyleSets({
+  dataLook: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignItems: 'flex-start',
+    cursor: 'pointer',
+    height: 360,
+    selectors: {
+      '>div': {
+        color: '#111',
+        padding: '0.5em',
+        transitionProperty: 'background',
+        transitionDuration: '1s',
+        margin: '0.25em',
+      },
+      ' dl': {
+        display: 'flex',
+        flexDirection: 'column',
+        flexWrap: 'wrap',
+        margin: 0,
+        maxHeight: '500px',
+        maxWidth: '500px',
+        transitionProperty: 'max-height 3s',
+        transitionDuration: '1s',
+      },
+      ' dl div': {
+        display: 'flex',
+        margin: '0.25em',
+      },
+      ' dl.hide-details': {
+        maxHeight: 0,
+        maxWidth: 0,
+        overflow: 'hidden',
+      },
+      '.small': {
+        fontSize: '1em'
+      },
+      '.large': {
+        fontSize: '1.3em',
+        margin: 0
+      },
+      'dt::after ': {
+        content: ' : '
+      },
+      'dd': {
+        margin: '0 0.5em'
+      }
+    },
+  },
+  bottomControl: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
+    backgroundColor: '#ccc',
+    opacity: '0.9',
+    padding: '0.25em',
+    selectors: {
+      'select': {
+        fontSize: '1.1em',
+        margin: '0 1.5em'
+      },
+      'h3': {
+        margin: '0 2em'
+      }
+    }
+    },
+});
+const controlStyles = {
+  root: {
+    margin: '0 30px 20px 0',
+    maxWidth: '300px',
+  },
+};
 function App() {
   // convert data in file to a format DataStyle will accept
   const sampleDataList: Data = sampleData.map(e => {
@@ -31,7 +107,7 @@ function App() {
   const [selectedItem, setSelectedItem] = useState(null)
   const [showDetails, setShowdetails] = useState(false)
   useEffect(() => {
-    const sub = dataStyle.listen( (dS: any) => {
+    const sub = dataStyle.listen((dS: any) => {
       setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     });
     const subA = dataStyleA.listen(dS => {
@@ -64,11 +140,11 @@ function App() {
   return (
     <div className="App">
       <DataLook
-        className='data-look-a'
+        className={styles.dataLook}
         onClick={dataLookOnClick}
         dataStyles={data}
       />
-      <div className="bottom-control">
+      <div className={styles.bottomControl}>
         <h3>DataLook</h3>
         <select name="select" onChange={(e) => onSelectChange(e)}>
           <option value="" disabled selected  >Select an Item</option>
@@ -78,7 +154,14 @@ function App() {
                 <option key={key} value={value.id}> {value.data.name}</option>)
               )}
         </select>
-        <Toggle checked={showDetails} label="Show Details" defaultChecked onText="On" offText="Off" onChange={_onChange} />
+        <Toggle
+          styles={controlStyles}
+          checked={showDetails}
+          label="Show Details"
+          defaultChecked
+          onText="On"
+          offText="Off"
+          onChange={_onChange} />
       </div>
     </div>
   );
