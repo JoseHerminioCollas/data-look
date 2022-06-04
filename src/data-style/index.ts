@@ -1,14 +1,11 @@
 import { BehaviorSubject } from 'rxjs';
 
-type DatumTypes = number | string | boolean | null
-// type A =  [key string]: string
-interface ObjectLiteral {
-    [key: string]:  [any];
-  }
+// type DatumTypes = number | string | boolean | null
+
 export interface Datum {
-    id: string | number
+    id: string 
     name: string
-    [key: string]: DatumTypes | DatumTypes[] | any
+    [key: string]: string
 }
 export type Data = Datum[];
 export interface DatumStyle {
@@ -25,7 +22,7 @@ type Get = (id: string) => DatumStyle;
 type GetLatest = () => DatumStyle;
 type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
 type Set = (item: DatumStyle) => void
-type SetId = (id: string, config: { [key: string]: DatumTypes }) => void;
+type SetId = (id: string, config: { [key: string]: number | string | boolean }) => void;
 type Toggle = (id: string) => void
 type DataStyleI = (data: Data) => {
     getAll: GetAll, get: Get, getLatest: GetLatest, listen: Listen, set: Set, setId: SetId, toggle: Toggle
@@ -40,20 +37,16 @@ const initV: DatumStyle = {
 }
 const DataStyle: DataStyleI = (data) => {
     if (data.length < 1) throw 'data has no values'
-    try {  
-        const json = JSON.parse(JSON.stringify(data));  
-        console.log(json)
-      } catch (e) {  
-        console.log('invalid json');  
-      }
     const items: DataStyles = data.reduce((acc, v) => {
+        // console.log(typeof v)
+        const { id, ...rest } = v
         return {
             ...acc,
             [String(v.id)]:
             {
                 ...initV,
                 id: String(v.id),
-                data: v,
+                data: rest,
             },
         };
     }, {});

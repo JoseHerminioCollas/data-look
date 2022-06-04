@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Toggle } from '@fluentui/react/lib/Toggle';
 import 'App.css';
-import DataStyle, { Data, DatumStyle } from 'data-style';
+import DataStyle, { Data, Datum, DatumStyle } from 'data-style';
 import DataLook from 'components/data-look';
 import getList from 'get-list';
 import sampleData from 'data-c';
@@ -11,19 +11,37 @@ import { BehaviorSubject } from 'rxjs';
 
 function App() {
   const sampleDataList: Data = sampleData.map(e => {
+    // let dt = k
+    // .split('_')
+    // .map(l => `${l.charAt(0).toUpperCase()}${l.slice(1)}`)
+    // .join(' ')
+    // format all the values
+    // const {id, ...rest} = e    
+    // const a = Object.entries(e).reduce((e): any => {
+    // console.log(e)
+    // if (e === null || e === undefined) return ' - '
+    // })
     const { id, name, year, mass, fall, recclass, reclat, reclong } = e
+    // const d: Datum = {
+    //   id,
+    //   name: ' ',
+    //   // year: new Date(String(year)).toDateString(),
+    //   mass: ' ',
+    // }
+    // return d
     return {
       id,
       name,
       year: new Date(String(year)).toDateString(),
-      mass,
-      fall,
-      recclass,
-      reclat,
-      reclong
+      mass: ' ',
+      // fall,
+      // recclass,
+      reclat: ' ',
+      reclong: ' '
     }
   });
   const dataListA = getList()
+  // const dataStyle = DataStyle(getList());
   const dataStyle = DataStyle(sampleDataList);
   const dataStyleA = DataStyle(dataListA);
   const [displayStyleState,] = useState(dataStyle)

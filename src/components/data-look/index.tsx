@@ -15,27 +15,30 @@ const DataLook: DataLookI = ({
   className,
   detailsList,
 }) => {
-
   return (<div className={className}  >
     {
-      Object.entries(dataStyles).map(([k, v]) => (
-        <div
-          key={k}
-          style={{
-            background: v.background
-          }}
-          onClick={() => onClick(k)}
-        >
-          <h3 className={v.showDetails ? 'small' : 'large'}>
-            {v.data.name}
-          </h3>
-          <DataLookItem
-            data={v.data}
-            detailsList={detailsList}
-            show={v.showDetails}
-          />
-        </div>
-      ))
+      Object.entries(dataStyles).map(([k, v]) => {
+        const { id, name, ...details } = v.data
+
+        return (
+          <div
+            key={k}
+            // style={{
+            //   background: v.background
+            // }}
+            onClick={() => onClick(k)}
+          >
+            <h3 className={v.showDetails ? 'small' : 'large'}>
+              {name}
+            </h3>
+            <DataLookItem
+              data={details}
+              // detailsList={detailsList}
+              show={v.showDetails}
+            />
+          </div>
+        )
+      })
     }
   </div>)
 }

@@ -26,7 +26,6 @@
 }
 
 .data-look-a>div {
-  background-color: green;
   padding: 0.5em;
   transition-property: background;
   transition-duration: 1s;
