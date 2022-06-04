@@ -5,8 +5,7 @@ import DataStyle, { Data, Datum } from 'data-style';
 import DataLook from 'components/data-look';
 import getList from 'get-list';
 import sampleData from 'data-c';
-import engine from 'engine';
-import detailListA from 'detail-list-a';
+// import engine from 'engine';
 
 function App() {
   // convert data in file to a format DataStyle will accept
@@ -16,8 +15,8 @@ function App() {
       let val = v[1]
       if (key === 'geolocation') {
         return acc;
-      } else if(key === 'year') {
-        return {...acc, [key]: new Date(val).toDateString()}
+      } else if (key === 'year') {
+        return { ...acc, [key]: new Date(val).toDateString() }
       }
       return { ...acc, [key]: val }
     }, {}) as Datum
@@ -32,9 +31,9 @@ function App() {
   const [selectedItem, setSelectedItem] = useState(null)
   const [showDetails, setShowdetails] = useState(false)
   useEffect(() => {
-    const sub = dataStyle.listen(((dS: any) => {
+    const sub = dataStyle.listen( (dS: any) => {
       setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
-    }).bind(showDetails))
+    });
     const subA = dataStyleA.listen(dS => {
       setDataA(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     })
@@ -64,21 +63,19 @@ function App() {
   }
   return (
     <div className="App">
-      {selectedItem}
       <DataLook
         className='data-look-a'
         onClick={dataLookOnClick}
         dataStyles={data}
-        detailsList={detailListA}
       />
       <div className="bottom-control">
         <h3>DataLook</h3>
-        <select name="select" placeholder='select' onChange={(e) => onSelectChange(e)}>
+        <select name="select" onChange={(e) => onSelectChange(e)}>
           <option value="" disabled selected  >Select an Item</option>
           {
             Object.entries(displayStyleState.getAll())
-              .map(([, value]) => (
-                <option value={value.id}> {value.data.name}</option>)
+              .map(([key, value]) => (
+                <option key={key} value={value.id}> {value.data.name}</option>)
               )}
         </select>
         <Toggle checked={showDetails} label="Show Details" defaultChecked onText="On" offText="Off" onChange={_onChange} />

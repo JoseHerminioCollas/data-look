@@ -6,14 +6,12 @@ type DataLookI = (props: {
   dataStyles: DataStyles,
   onClick?: (k: string) => void
   className: string
-  detailsList: string[]
 }) => React.ReactElement
 
 const DataLook: DataLookI = ({
   dataStyles,
   onClick = () => { },
   className,
-  detailsList,
 }) => {
   return (<div className={className}  >
     {
@@ -23,9 +21,9 @@ const DataLook: DataLookI = ({
         return (
           <div
             key={k}
-            // style={{
-            //   background: v.background
-            // }}
+            style={{
+              background: v.background
+            }}
             onClick={() => onClick(k)}
           >
             <h3 className={v.showDetails ? 'small' : 'large'}>
@@ -33,7 +31,6 @@ const DataLook: DataLookI = ({
             </h3>
             <DataLookItem
               data={details}
-              // detailsList={detailsList}
               show={v.showDetails}
             />
           </div>

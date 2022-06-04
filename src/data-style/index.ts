@@ -1,7 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
 
-// type DatumTypes = number | string | boolean | null
-
 export interface Datum {
     id: string 
     name: string
@@ -36,9 +34,8 @@ const initV: DatumStyle = {
     data: { id: 'x', name: 'x' }
 }
 const DataStyle: DataStyleI = (data) => {
-    if (data.length < 1) throw 'data has no values'
+    if (data.length < 1) throw new Error('data has no values')
     const items: DataStyles = data.reduce((acc, v) => {
-        // console.log(typeof v)
         const { id, ...rest } = v
         return {
             ...acc,

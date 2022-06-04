@@ -1,5 +1,3 @@
-import { DataStyles, Datum } from 'data-style'
-
 type Details = {
   [key: string]: string
 }
@@ -13,13 +11,12 @@ const DataLookItem: DataLookItemI = ({ data, show }) => {
     <dl className={show ? '' : 'hide-details'}>
       {Object.entries(data)
         .map(([k, v]) => {
-          let dt = k
+          const dt = k
             .split('_')
             .map(l => `${l.charAt(0).toUpperCase()}${l.slice(1)}`)
             .join(' ')
-          // let dd = v
           return (
-            <div><dt>{dt}</dt><dd>{v}</dd></div>
+            <div key={k}><dt>{dt}</dt><dd>{v}</dd></div>
           )
         })}
     </dl>

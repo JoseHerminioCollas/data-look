@@ -1,4 +1,4 @@
-export default
+const data =
     [{ "name": "Aachen", "id": "1" }, { "name": "Aachen", "id": "1", "nametype": "Valid", "recclass": "L5", "mass": "21", "fall": "Fell", "year": "1880-01-01T00:00:00.000", "reclat": "50.775000", "reclong": "6.083330", "geolocation": { "type": "Point", "coordinates": [6.08333, 50.775] } }
         , { "name": "Aarhus", "id": "2", "nametype": "Valid", "recclass": "H6", "mass": "720", "fall": "Fell", "year": "1951-01-01T00:00:00.000", "reclat": "56.183330", "reclong": "10.233330", "geolocation": { "type": "Point", "coordinates": [10.23333, 56.18333] } }
         , { "name": "Abee", "id": "6", "nametype": "Valid", "recclass": "EH4", "mass": "107000", "fall": "Fell", "year": "1952-01-01T00:00:00.000", "reclat": "54.216670", "reclong": "-113.000000", "geolocation": { "type": "Point", "coordinates": [-113, 54.21667] } }
@@ -999,3 +999,6 @@ export default
         , { "name": "Tjabe", "id": "24011", "nametype": "Valid", "recclass": "H6", "mass": "20000", "fall": "Fell", "year": "1869-01-01T00:00:00.000", "reclat": "-7.083330", "reclong": "111.533330", "geolocation": { "type": "Point", "coordinates": [111.53333, -7.08333] } }
         , { "name": "Tjerebon", "id": "24012", "nametype": "Valid", "recclass": "L5", "mass": "16500", "fall": "Fell", "year": "1922-01-01T00:00:00.000", "reclat": "-6.666670", "reclong": "106.583330", "geolocation": { "type": "Point", "coordinates": [106.58333, -6.66667] } }
         , { "name": "Tomakovka", "id": "24019", "nametype": "Valid", "recclass": "LL6", "mass": "600", "fall": "Fell", "year": "1905-01-01T00:00:00.000", "reclat": "47.850000", "reclong": "34.766670", "geolocation": { "type": "Point", "coordinates": [34.76667, 47.85] } }]
+
+        export default data;
+        
