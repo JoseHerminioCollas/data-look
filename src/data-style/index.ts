@@ -1,10 +1,14 @@
 import { BehaviorSubject } from 'rxjs';
 
 type DatumTypes = number | string | boolean | null
+// type A =  [key string]: string
+interface ObjectLiteral {
+    [key: string]:  [any];
+  }
 export interface Datum {
     id: string | number
     name: string
-    [key: string]: DatumTypes | DatumTypes[]
+    [key: string]: DatumTypes | DatumTypes[] | any
 }
 export type Data = Datum[];
 export interface DatumStyle {
@@ -18,12 +22,13 @@ export interface DatumStyle {
 export type DataStyles = { [key: string]: DatumStyle };
 type GetAll = () => DataStyles;
 type Get = (id: string) => DatumStyle;
+type GetLatest = () => DatumStyle;
 type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
 type Set = (item: DatumStyle) => void
 type SetId = (id: string, config: { [key: string]: DatumTypes }) => void;
 type Toggle = (id: string) => void
 type DataStyleI = (data: Data) => {
-    getAll: GetAll, get: Get, listen: Listen, set: Set, setId: SetId, toggle: Toggle
+    getAll: GetAll, get: Get, getLatest: GetLatest, listen: Listen, set: Set, setId: SetId, toggle: Toggle
 };
 const initV: DatumStyle = {
     id: 'x',
@@ -35,6 +40,12 @@ const initV: DatumStyle = {
 }
 const DataStyle: DataStyleI = (data) => {
     if (data.length < 1) throw 'data has no values'
+    try {  
+        const json = JSON.parse(JSON.stringify(data));  
+        console.log(json)
+      } catch (e) {  
+        console.log('invalid json');  
+      }
     const items: DataStyles = data.reduce((acc, v) => {
         return {
             ...acc,
@@ -55,6 +66,7 @@ const DataStyle: DataStyleI = (data) => {
     })
     const getAll: GetAll = () => items;
     const get: Get = id => items[id]
+    const getLatest = () => itemUpdate$.value;
     const set: Set = v => itemUpdate$.next(v)
     const setId: SetId = (id, config) => {
         const styleItem = getAll()[id]
@@ -74,6 +86,7 @@ const DataStyle: DataStyleI = (data) => {
         set,
         setId,
         toggle,
+        getLatest,
     };
 }
 

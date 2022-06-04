@@ -4,22 +4,37 @@ import 'App.css';
 import DataStyle, { Data, DatumStyle } from 'data-style';
 import DataLook from 'components/data-look';
 import getList from 'get-list';
-import sampleData from 'data-a';
+import sampleData from 'data-c';
 import engine from 'engine';
 import detailListA from 'detail-list-a';
+import { BehaviorSubject } from 'rxjs';
 
 function App() {
-  const sampleDataList: Data = sampleData.data;
+  const sampleDataList: Data = sampleData.map(e => {
+    const { id, name, year, mass, fall, recclass, reclat, reclong } = e
+    return {
+      id,
+      name,
+      year: new Date(String(year)).toDateString(),
+      mass,
+      fall,
+      recclass,
+      reclat,
+      reclong
+    }
+  });
   const dataListA = getList()
   const dataStyle = DataStyle(sampleDataList);
   const dataStyleA = DataStyle(dataListA);
   const [displayStyleState,] = useState(dataStyle)
   const [data, setData] = useState(dataStyle.getAll())
   const [dataA, setDataA] = useState(dataStyleA.getAll())
+  const [selectedItem, setSelectedItem] = useState(null)
+  const [showDetails, setShowdetails] = useState(false)
   useEffect(() => {
-    const sub = dataStyle.listen(dS => {
+    const sub = dataStyle.listen(((dS: any) => {
       setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
-    })
+    }).bind(showDetails))
     const subA = dataStyleA.listen(dS => {
       setDataA(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     })
@@ -27,11 +42,16 @@ function App() {
     // engine(dataStyleA, 500)
     return () => { sub.unsubscribe(); subA.unsubscribe() }
   }, [])
+  useEffect(() => {
+    const a = displayStyleState.getLatest()
+    if (selectedItem === a.id) {
+      console.log('match')
+      setShowdetails(a.showDetails)
+    }
+  }, [data])
   const dataLookOnClick = (k: string) => {
     displayStyleState.toggle(k);
   }
-  const [selectedItem, setSelectedItem] = useState(null)
-  const [showDetails, setShowdetails] = useState(false)
   const onSelectChange = (e: any) => {
     setSelectedItem(e.target.value)
     const b = displayStyleState.get(e.target.value).showDetails
@@ -44,6 +64,7 @@ function App() {
   }
   return (
     <div className="App">
+      {selectedItem}
       <DataLook
         className='data-look-a'
         onClick={dataLookOnClick}

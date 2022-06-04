@@ -5,10 +5,11 @@ import { DataStyles, Datum } from 'data-style'
   ) => React.ReactElement
   
 const DataLookItem: DataLookItemI = ({ data, detailsList, show }) => {
+    const dL = ['id', 'name']
     return (
       <dl className={show ? '' : 'hide-details'}>
         {Object.entries(data)
-          .filter(([k2, v2]) => detailsList.includes(k2))
+          .filter(([k2, v2]) => !dL.includes(k2))
           .map(([k3, v3]) => {
             let dt = k3
               .split('_')
