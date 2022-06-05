@@ -2,43 +2,37 @@ import React, { useEffect, useState } from 'react';
 import { Toggle, mergeStyles } from '@fluentui/react';
 import DataStyle, { Data, Datum } from 'data-style';
 import DataLook from 'components/data-look';
+import ControlHeader from 'components/control-header';
+import PopUpSelect from 'components/pop-up-select';
 import getList from 'get-list';
 import sampleData from 'data-c';
 // import engine from 'engine';
 
-const controlAreaStyles = mergeStyles({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'fixed',
-    bottom: 0,
-    width: '100%',
-    backgroundColor: '#ccc',
-    opacity: '0.9',
-    padding: '0.25em',
-    selectors: {
-      'select': {
-        fontSize: '1.1em',
-        margin: '0 1.5em'
-      },
-      'h3': {
-        margin: '0 2em'
-      }
-    }
-})
-const dataLookStyles = mergeStyles({  
-    selectors: {
-      ' > div': {
-        color: '#333',
-      },
+const dataLookStyles = mergeStyles({
+  selectors: {
+    ' > div': {
+      color: '#333',
+    },
   },
 });
+const selectorStyles = mergeStyles(
+  {
+    fontSize: '1.1em',
+    margin: '0 1.5em'
+  }
+)
+const headerStyles = mergeStyles(
+  {
+    margin: '0 2em'
+  }
+)
 const toggleStyles = {
   root: {
     margin: '0 30px 20px 0',
     maxWidth: '300px',
   },
 };
+
 function App() {
   // convert data in file to a format DataStyle will accept
   const sampleDataList: Data = sampleData.map(e => {
@@ -94,22 +88,19 @@ function App() {
     displayStyleState.setId(selectedItem, { showDetails: checked })
   }
   return (
-    <div className="App">
+    <div>
       <DataLook
         className={dataLookStyles}
         onClick={dataLookOnClick}
         dataStyles={data}
       />
-      <div className={controlAreaStyles}>
-        <h3>DataLook</h3>
-        <select name="select" onChange={(e) => onSelectChange(e)}>
-          <option value="" disabled selected  >Select an Item</option>
-          {
-            Object.entries(displayStyleState.getAll())
-              .map(([key, value]) => (
-                <option key={key} value={value.id}> {value.data.name}</option>)
-              )}
-        </select>
+      <ControlHeader>
+        <h3 className={headerStyles}>DataLook</h3>
+        <PopUpSelect
+          entries={dataStyle.getAll()}
+          onChange={onSelectChange}
+          className='selectorStyles'
+        />
         <Toggle
           styles={toggleStyles}
           checked={showDetails}
@@ -117,8 +108,9 @@ function App() {
           defaultChecked
           onText="On"
           offText="Off"
-          onChange={_onChange} />
-      </div>
+          onChange={_onChange}
+        />
+      </ControlHeader>
     </div>
   );
 }
