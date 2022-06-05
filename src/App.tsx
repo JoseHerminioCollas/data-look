@@ -51,47 +51,47 @@ function App() {
   // const dataStyle = DataStyle(getList());
   const dataStyle = DataStyle(sampleDataList);
   const dataStyleA = DataStyle(dataListA);
-  const [displayStyleState,] = useState(dataStyle)
+  // preserve dataStyles in state
+  const [dataStyleState,] = useState(dataStyle)
   const [data, setData] = useState(dataStyle.getAll())
-  const [dataA, setDataA] = useState(dataStyleA.getAll())
-  const [selectedItem, setSelectedItem] = useState(null)
+  // const [dataA, setDataA] = useState(dataStyleA.getAll())
+  const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [showDetails, setShowdetails] = useState(false)
   useEffect(() => {
     const sub = dataStyle.listen((dS: any) => {
       setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     });
-    const subA = dataStyleA.listen(dS => {
-      setDataA(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
-    })
+    // const subA = dataStyleA.listen(dS => {
+    //   setDataA(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
+    // })
     // engine(dataStyle, 1000)
     // engine(dataStyleA, 500)
-    return () => { sub.unsubscribe(); subA.unsubscribe() }
+    return () => {
+      sub.unsubscribe();
+      // subA.unsubscribe() 
+    }
   }, [])
   useEffect(() => {
-    const a = displayStyleState.getLatest()
+    const a = dataStyleState.getLatest()
     if (selectedItem === a.id) {
-      console.log('match')
       setShowdetails(a.showDetails)
     }
   }, [data])
-  const dataLookOnClick = (k: string) => {
-    displayStyleState.toggle(k);
+  const onSelectChange = (id: string) => {
+    setSelectedItem(id)
+    // const b = displayStyleState.get(id).showDetails
+    setShowdetails(dataStyleState.get(id).showDetails)
   }
-  const onSelectChange = (e: any) => {
-    setSelectedItem(e.target.value)
-    const b = displayStyleState.get(e.target.value).showDetails
-    setShowdetails(b)
-  }
-  function _onChange(ev: React.MouseEvent<HTMLElement>, checked?: boolean) {
+  function onToggleChange(ev: React.MouseEvent<HTMLElement>, checked?: boolean) {
     if (!selectedItem || checked === undefined) return
     setShowdetails(checked)
-    displayStyleState.setId(selectedItem, { showDetails: checked })
+    dataStyleState.setId(selectedItem, { showDetails: checked })
   }
   return (
     <div>
       <DataLook
         className={dataLookStyles}
-        onClick={dataLookOnClick}
+        onClick={dataStyleState.toggle}
         dataStyles={data}
       />
       <ControlHeader>
@@ -108,7 +108,7 @@ function App() {
           defaultChecked
           onText="On"
           offText="Off"
-          onChange={_onChange}
+          onChange={onToggleChange}
         />
       </ControlHeader>
     </div>
