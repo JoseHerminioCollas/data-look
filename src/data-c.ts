@@ -1,5 +1,17 @@
+/*
+Data source:
+DATA.NASA.GOV: A catalog of publicly available NASA datasets
+
+Meteorite Landings
+This comprehensive data set from The Meteoritical Society contains information on all of the known meteorite landings. 
+
+https://data.nasa.gov/Space-Science/Meteorite-Landings/gh4g-9sfh/data
+https://data.nasa.gov/resource/y77d-th95.json
+https://data.nasa.gov/api/views/gh4g-9sfh/rows.json?accessType=DOWNLOAD
+*/
+
 const data =
-    [{ "name": "Aachen", "id": "1" }, { "name": "Aachen", "id": "1", "nametype": "Valid", "recclass": "L5", "mass": "21", "fall": "Fell", "year": "1880-01-01T00:00:00.000", "reclat": "50.775000", "reclong": "6.083330", "geolocation": { "type": "Point", "coordinates": [6.08333, 50.775] } }
+    [{ "name": "Aachen", "id": "1", "nametype": "Valid", "recclass": "L5", "mass": "21", "fall": "Fell", "year": "1880-01-01T00:00:00.000", "reclat": "50.775000", "reclong": "6.083330", "geolocation": { "type": "Point", "coordinates": [6.08333, 50.775] } }
         , { "name": "Aarhus", "id": "2", "nametype": "Valid", "recclass": "H6", "mass": "720", "fall": "Fell", "year": "1951-01-01T00:00:00.000", "reclat": "56.183330", "reclong": "10.233330", "geolocation": { "type": "Point", "coordinates": [10.23333, 56.18333] } }
         , { "name": "Abee", "id": "6", "nametype": "Valid", "recclass": "EH4", "mass": "107000", "fall": "Fell", "year": "1952-01-01T00:00:00.000", "reclat": "54.216670", "reclong": "-113.000000", "geolocation": { "type": "Point", "coordinates": [-113, 54.21667] } }
         , { "name": "Acapulco", "id": "10", "nametype": "Valid", "recclass": "Acapulcoite", "mass": "1914", "fall": "Fell", "year": "1976-01-01T00:00:00.000", "reclat": "16.883330", "reclong": "-99.900000", "geolocation": { "type": "Point", "coordinates": [-99.9, 16.88333] } }
@@ -1000,5 +1012,4 @@ const data =
         , { "name": "Tjerebon", "id": "24012", "nametype": "Valid", "recclass": "L5", "mass": "16500", "fall": "Fell", "year": "1922-01-01T00:00:00.000", "reclat": "-6.666670", "reclong": "106.583330", "geolocation": { "type": "Point", "coordinates": [106.58333, -6.66667] } }
         , { "name": "Tomakovka", "id": "24019", "nametype": "Valid", "recclass": "LL6", "mass": "600", "fall": "Fell", "year": "1905-01-01T00:00:00.000", "reclat": "47.850000", "reclong": "34.766670", "geolocation": { "type": "Point", "coordinates": [34.76667, 47.85] } }]
 
-        export default data;
-        
+export default data;
