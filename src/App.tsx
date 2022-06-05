@@ -79,7 +79,6 @@ function App() {
   }, [data])
   const onSelectChange = (id: string) => {
     setSelectedItem(id)
-    // const b = displayStyleState.get(id).showDetails
     setShowdetails(dataStyleState.get(id).showDetails)
   }
   function onToggleChange(ev: React.MouseEvent<HTMLElement>, checked?: boolean) {
