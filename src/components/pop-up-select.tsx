@@ -4,12 +4,17 @@ import { DataStyles } from 'data-style';
 type PopUpSelectI = ({ entries, onChange }: {
   entries: DataStyles,
   onChange: (id: string) => void
+  dataStyle: any
   className: string
 }) => React.ReactElement
 
-const PopUpSelect: PopUpSelectI = ({ entries, onChange, className }) => {
-
+const PopUpSelect: PopUpSelectI = ({ entries, onChange, dataStyle, className }) => {
+  dataStyle.listen( (e: any) => {
+    console.log('abc')
+  })
   return (
+    <>
+    {JSON.stringify(dataStyle.getLatest()).length}
     <select
       name="select"
       onChange={({ target }) => onChange(target.value)}
@@ -22,6 +27,7 @@ const PopUpSelect: PopUpSelectI = ({ entries, onChange, className }) => {
           <option key={key} value={value.id}>{value.data.name}</option>)
         )}
     </select>
+    </>
   )
 };
 

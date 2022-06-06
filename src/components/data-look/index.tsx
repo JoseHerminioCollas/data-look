@@ -1,5 +1,5 @@
 import React from "react";
-import {  mergeStyles } from '@fluentui/react';
+import { mergeStyles } from '@fluentui/react';
 import { DataStyles } from 'data-style'
 import DataLookItem from 'components/data-look/data-look-item';
 
@@ -7,6 +7,7 @@ type DataLookI = (props: {
   dataStyles: DataStyles,
   onClick?: (k: string) => void
   className: string
+  stream: any
 }) => React.ReactElement
 
 const dataLookStyles = mergeStyles({
@@ -56,13 +57,17 @@ const dataLookStyles = mergeStyles({
     'dd': {
       margin: '0 0.5em'
     }
-},
+  },
 });
 const DataLook: DataLookI = ({
   dataStyles,
   onClick = () => { },
   className,
+  stream
 }) => {
+  stream.listen((v: any) => {
+    console.log('DataLook', stream.getAll())
+  })
   return (<div className={[dataLookStyles, className].join(' ')}  >
     {
       Object.entries(dataStyles).map(([k, v]) => {
@@ -76,6 +81,7 @@ const DataLook: DataLookI = ({
             }}
             onClick={() => onClick(k)}
           >
+            {/* {JSON.stringify(stream)} */}
             <h3 className={v.showDetails ? 'small' : 'large'}>
               {name}
             </h3>

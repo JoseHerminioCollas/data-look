@@ -73,17 +73,23 @@ function App() {
   useEffect(() => {
     // listenAll
     const sub = dataStyle.listen((dS: any) => {
-      // setData(dataStyle.getAll())
-      // setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
+      console.log('xxx')
+      // setA('z')
+      setData(dataStyle.getAll())
+      setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     });
     setTimeout(() => {
+      console.log('st')
       // a redraw has to be triggered
-      // setA('z')
       dataStyle.setAll(lineDatum)
+      // this triggers the redraw !
+      // setA('z')
+      // this does not work!!!!!
+      // setStyleState(dataStyle)
       // setStyleState((sS: any) => {
       //   console.log('ss',sS.getAll())
-      //   // const a = sS.setAll(lineDatum)
-      //   // return a
+      //   // const a = {...sS}.setAll(lineDatum)
+      //   // return {...sS}.setAll(lineDatum)
       //   return sS;
       // })
     }, 1000)
@@ -125,15 +131,17 @@ function App() {
         onClick={dataStyleState.toggle}
         //????? dataStyle does not work, must use state version here
         // send the state to trigger the redraw!!!!!!!
-        dataStyles={dataStyleState.getAll()}
+        dataStyles={data}
+        stream={dataStyleState}
       // dataStyles={data}
       />
       <ControlHeader>
         <h3 className={headerStyles}>DataLook</h3>
         <PopUpSelect
-          entries={dataStyleState.getAll()}
+          entries={data}
           onChange={onSelectChange}
           className='selectorStyles'
+          dataStyle={dataStyleState}
         />
         <Toggle
           styles={toggleStyles}
