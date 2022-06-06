@@ -19,7 +19,7 @@ type GetAll = () => DataStyles;
 type Get = (id: string) => DatumStyle;
 type GetLatest = () => DatumStyle;
 type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
-type ListenItems = (cb: (items: DatumStyle | {}) => void) => any
+type ListenItems = (cb: (items: DataStyles | {}) => void) => any
 type Set = (item: DatumStyle) => void
 type SetId = (id: string, config: { [key: string]: number | string | boolean }) => void;
 type SetAll = (all: Data) => void

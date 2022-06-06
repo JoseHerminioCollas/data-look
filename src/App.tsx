@@ -75,7 +75,7 @@ function App() {
     console.log('useE')
     // listenAll
     dataStyle.listenItems(v => {
-      setData(dataStyle.getAll())
+      setData(v)
       console.log('listenItems', v)
     })
     const sub = dataStyle.listen((dS: any) => {
