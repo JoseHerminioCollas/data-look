@@ -19,13 +19,13 @@ type GetAll = () => DataStyles;
 type Get = (id: string) => DatumStyle;
 type GetLatest = () => DatumStyle;
 type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
-type ListenItems = (cb: (items: DataStyles | {}) => void) => any
+type ListenItems = (cb: (items: DataStyles | null) => void) => { unsubscribe: () => void }
 type Set = (item: DatumStyle) => void
 type SetId = (id: string, config: { [key: string]: number | string | boolean }) => void;
 type SetAll = (all: Data) => void
 type Toggle = (id: string) => void
 type DataStyleI = (data: Data) => {
-    getAll: GetAll, get: Get, getLatest: GetLatest, listen: Listen, set: Set, setId: SetId, setAll: SetAll, 
+    getAll: GetAll, get: Get, getLatest: GetLatest, listen: Listen, set: Set, setId: SetId, setAll: SetAll,
     toggle: Toggle,
     listenItems: ListenItems
 };
@@ -52,9 +52,9 @@ const convert = (data: Data) => {
     }, {});
 }
 const DataStyle: DataStyleI = (data) => {
-    // if (data.length < 1) throw new Error('data has no values')
+    // if (data.length < 1) {return (<></>)};
     let items: DataStyles = convert(data)
-    const items$ = new BehaviorSubject<DataStyles | {}>(items)
+    const items$ = new BehaviorSubject<DataStyles | null>(items)
     items$.subscribe(v => {
         console.log('items$ 1', v)
     })
@@ -64,8 +64,11 @@ const DataStyle: DataStyleI = (data) => {
     itemUpdate$.subscribe(v => {
         console.log('itemUpdate$ 2')
         if (!v) return;
-        items[v.id] = v;
-        items$.next(items)
+        // this updates the stream !!!!!
+        // items[v.id] = v;
+        const i = { ...items$.value, [v.id]: v }
+        // trigger the items listen to redraw
+        items$.next(i)
     })
     const getAll: GetAll = () => items;
     const get: Get = id => items[id]
@@ -81,11 +84,19 @@ const DataStyle: DataStyleI = (data) => {
     const setId: SetId = (id, config) => {
         const styleItem = getAll()[id]
         set({ ...styleItem, ...config })
-        itemUpdate$.next({ ...styleItem, ...config })
+        // itemUpdate$.next({ ...styleItem, ...config })
     }
     const toggle: Toggle = (id) => {
-        const styleItem = get(id)
-        set({ ...styleItem, showDetails: !styleItem.showDetails })
+        if (!items$.value) return
+        const styleItem = items$.value[id]
+        items$.next({
+            ...items$.value,
+            [id]: {
+                ...styleItem,
+                showDetails: !styleItem.showDetails
+            }
+        })
+        // set({ ...styleItem, showDetails: !styleItem.showDetails })
     }
     const listen: Listen = cb => itemUpdate$.subscribe(v => cb(v))
     const listenItems: ListenItems = cb => items$

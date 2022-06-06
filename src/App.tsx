@@ -75,6 +75,7 @@ function App() {
     console.log('useE')
     // listenAll
     dataStyle.listenItems(v => {
+      if(!v) return
       setData(v)
       console.log('listenItems', v)
     })
