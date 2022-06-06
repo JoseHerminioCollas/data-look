@@ -1,5 +1,5 @@
 type Details = {
-  [key: string]: string
+  [key: string]: string | number
 }
 type DataLookItemI = (
   { data, show }: { data: Details, show: boolean }

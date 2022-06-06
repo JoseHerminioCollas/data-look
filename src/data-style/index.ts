@@ -1,9 +1,10 @@
 import { BehaviorSubject } from 'rxjs';
 
+type ABC = string | number
 export interface Datum {
-    id: string 
+    id: string  
     name: string
-    [key: string]: string
+    [key: string]: string | number
 }
 export type Data = Datum[];
 export interface DatumStyle {
@@ -21,9 +22,10 @@ type GetLatest = () => DatumStyle;
 type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
 type Set = (item: DatumStyle) => void
 type SetId = (id: string, config: { [key: string]: number | string | boolean }) => void;
+type SetAll = (all: Data) => void
 type Toggle = (id: string) => void
 type DataStyleI = (data: Data) => {
-    getAll: GetAll, get: Get, getLatest: GetLatest, listen: Listen, set: Set, setId: SetId, toggle: Toggle
+    getAll: GetAll, get: Get, getLatest: GetLatest, listen: Listen, set: Set, setId: SetId, setAll: SetAll, toggle: Toggle
 };
 const initV: DatumStyle = {
     id: 'x',
@@ -33,9 +35,8 @@ const initV: DatumStyle = {
     size: 'SML',
     data: { id: 'x', name: 'x' }
 }
-const DataStyle: DataStyleI = (data) => {
-    if (data.length < 1) throw new Error('data has no values')
-    const items: DataStyles = data.reduce((acc, v) => {
+const convert = (data: Data) => {
+    return data.reduce((acc, v) => {
         const { id, ...rest } = v
         return {
             ...acc,
@@ -47,6 +48,10 @@ const DataStyle: DataStyleI = (data) => {
             },
         };
     }, {});
+}
+const DataStyle: DataStyleI = (data) => {
+    if (data.length < 1) throw new Error('data has no values')
+    let items: DataStyles = convert(data)
     const itemUpdate$ = new BehaviorSubject<DatumStyle>(
         Object.values(items)[0]
     )
@@ -58,6 +63,11 @@ const DataStyle: DataStyleI = (data) => {
     const get: Get = id => items[id]
     const getLatest = () => itemUpdate$.value;
     const set: Set = v => itemUpdate$.next(v)
+    const setAll: SetAll = all => {
+        // only update the data here!!!
+        items = convert(all)
+        set(items['1'])
+    }
     const setId: SetId = (id, config) => {
         const styleItem = getAll()[id]
         set({ ...styleItem, ...config })
@@ -75,6 +85,7 @@ const DataStyle: DataStyleI = (data) => {
         listen,
         set,
         setId,
+        setAll,
         toggle,
         getLatest,
     };
