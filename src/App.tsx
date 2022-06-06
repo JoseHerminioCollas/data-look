@@ -69,7 +69,16 @@ const sampleList: Datum[] = convert(lineData.data)
 function App() {
   const dataListA = getList()
   // const dataStyle = DataStyle(getList());
-  const dataStyle = DataStyle([]);
+  const iV =  {
+    "id": 1,
+    "name": "Bitcoin",
+    "symbol": "BTC",
+    "slug": "bitcoin",
+    "num_market_pairs": 9471,
+    "date_added": "2013-04-28T00:00:00.000Z"
+  }
+  const dataStyle = DataStyle( convert([iV]) );
+  // const dataStyle = DataStyle(sampleList);
   // const dataStyleA = DataStyle(dataListA);
   // preserve dataStyles in state
   const [dataStyleState, setStyleState] = useState(dataStyle)
@@ -90,12 +99,15 @@ function App() {
     // dataStyleState.setId('1', {name: 'a'})
     const sub = dataStyle.listen((dS: any) => {
       console.log('abc', dS)
+      if(!dS) return
+      // this does not work when the whole list is replaced!!!!!!!!!!
+      setData(dataStyle.getAll())
       setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     });
     // https://goatstone.com/info
     // localhost:3030/info
     // https://jsonplaceholder.typicode.com/users
-    dataStyleState.setId('1', { showDetails: true, background: 'red' })
+    // dataStyleState.setId('1', { showDetails: true, background: 'red' })
     axios.get(`https://goatstone.com/info`)
       .then(res => {
         const a = convert(res.data.data)

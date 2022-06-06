@@ -50,7 +50,7 @@ const convert = (data: Data) => {
     }, {});
 }
 const DataStyle: DataStyleI = (data) => {
-    if (data.length < 1) throw new Error('data has no values')
+    // if (data.length < 1) throw new Error('data has no values')
     let items: DataStyles = convert(data)
     const itemUpdate$ = new BehaviorSubject<DatumStyle>(
         Object.values(items)[0]
@@ -66,7 +66,7 @@ const DataStyle: DataStyleI = (data) => {
     const setAll: SetAll = all => {
         // only update the data here!!!
         items = convert(all)
-        set(items['1'])
+        set(items['2'])
     }
     const setId: SetId = (id, config) => {
         const styleItem = getAll()[id]
