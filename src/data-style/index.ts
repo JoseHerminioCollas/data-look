@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 
 export interface Datum {
-    id: string  
+    id: string
     name: string
     [key: string]: string | number
 }
@@ -19,12 +19,15 @@ type GetAll = () => DataStyles;
 type Get = (id: string) => DatumStyle;
 type GetLatest = () => DatumStyle;
 type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
+type ListenItems = (cb: (items: DatumStyle | {}) => void) => any
 type Set = (item: DatumStyle) => void
 type SetId = (id: string, config: { [key: string]: number | string | boolean }) => void;
 type SetAll = (all: Data) => void
 type Toggle = (id: string) => void
 type DataStyleI = (data: Data) => {
-    getAll: GetAll, get: Get, getLatest: GetLatest, listen: Listen, set: Set, setId: SetId, setAll: SetAll, toggle: Toggle
+    getAll: GetAll, get: Get, getLatest: GetLatest, listen: Listen, set: Set, setId: SetId, setAll: SetAll, 
+    toggle: Toggle,
+    listenItems: ListenItems
 };
 const initV: DatumStyle = {
     id: 'x',
@@ -51,12 +54,18 @@ const convert = (data: Data) => {
 const DataStyle: DataStyleI = (data) => {
     // if (data.length < 1) throw new Error('data has no values')
     let items: DataStyles = convert(data)
+    const items$ = new BehaviorSubject<DataStyles | {}>(items)
+    items$.subscribe(v => {
+        console.log('items$ 1', v)
+    })
     const itemUpdate$ = new BehaviorSubject<DatumStyle>(
         Object.values(items)[0]
     )
     itemUpdate$.subscribe(v => {
+        console.log('itemUpdate$ 2')
         if (!v) return;
         items[v.id] = v;
+        items$.next(items)
     })
     const getAll: GetAll = () => items;
     const get: Get = id => items[id]
@@ -65,7 +74,9 @@ const DataStyle: DataStyleI = (data) => {
     const setAll: SetAll = all => {
         // only update the data here!!!
         items = convert(all)
-        set(items['2'])
+        items$.next(items)
+        // for a trigger
+        // set(items['2']) !!!!! TODO ???
     }
     const setId: SetId = (id, config) => {
         const styleItem = getAll()[id]
@@ -77,11 +88,14 @@ const DataStyle: DataStyleI = (data) => {
         set({ ...styleItem, showDetails: !styleItem.showDetails })
     }
     const listen: Listen = cb => itemUpdate$.subscribe(v => cb(v))
+    const listenItems: ListenItems = cb => items$
+        .subscribe(v => cb(v))
 
     return {
         getAll,
         get,
         listen,
+        listenItems,
         set,
         setId,
         setAll,

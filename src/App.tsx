@@ -63,6 +63,7 @@ const initValue = [{
 const datumCMC = convertFromCMC(initValue)
 
 function App() {
+  console.log('App')
   const dataStyle = DataStyle(datumCMC);
   // preserve dataStyle in state
   const [dataStyleState, setStyleState] = useState(dataStyle)
@@ -71,17 +72,28 @@ function App() {
   const [showDetails, setShowdetails] = useState(false)
   const [a, setA] = useState('a')
   useEffect(() => {
+    console.log('useE')
     // listenAll
-    const sub = dataStyle.listen((dS: any) => {
-      console.log('xxx')
-      // setA('z')
+    dataStyle.listenItems(v => {
       setData(dataStyle.getAll())
-      setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
+      console.log('listenItems', v)
+    })
+    const sub = dataStyle.listen((dS: any) => {
+      console.log('listen' ,dataStyle.getAll())
+      // why does this trigger a update of the style????
+      // setData(dataStyle.getAll())
+      // setA('z')
+      // setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     });
+    /*
+      dS.listenAll(all => setData(all))
+    */
     setTimeout(() => {
-      console.log('st')
+      // console.log('st')
       // a redraw has to be triggered
+
       dataStyle.setAll(lineDatum)
+
       // this triggers the redraw !
       // setA('z')
       // this does not work!!!!!

@@ -65,9 +65,9 @@ const DataLook: DataLookI = ({
   className,
   stream
 }) => {
-  stream.listen((v: any) => {
-    console.log('DataLook', stream.getAll())
-  })
+  // stream.listen((v: any) => {
+  //   // console.log('DataLook', stream.getAll())
+  // })
   return (<div className={[dataLookStyles, className].join(' ')}  >
     {
       Object.entries(dataStyles).map(([k, v]) => {

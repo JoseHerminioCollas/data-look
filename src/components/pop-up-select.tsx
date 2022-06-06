@@ -10,7 +10,7 @@ type PopUpSelectI = ({ entries, onChange }: {
 
 const PopUpSelect: PopUpSelectI = ({ entries, onChange, dataStyle, className }) => {
   dataStyle.listen( (e: any) => {
-    console.log('abc')
+    // console.log('abc')
   })
   return (
     <>
