@@ -1,6 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
 
-type ABC = string | number
 export interface Datum {
     id: string  
     name: string
