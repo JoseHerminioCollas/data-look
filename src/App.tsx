@@ -69,14 +69,15 @@ function App() {
   const [data, setData] = useState(dataStyle.getAll())
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [showDetails, setShowdetails] = useState(false)
+  const [a, setA] = useState('a')
   useEffect(() => {
     // listenAll
     const sub = dataStyle.listen((dS: any) => {
-      setData(dataStyle.getAll())
-      // setStyleState(dataStyle.getAll())
+      // setData(dataStyle.getAll())
       // setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     });
     setTimeout(() => {
+      setA('zzzz')
       dataStyle.setAll(lineDatum)
     }, 1000)
     /*
@@ -109,9 +110,12 @@ function App() {
   }
   return (
     <div>
+      {a}a{JSON.stringify(dataStyleState.getAll())}
       <DataLook
         className={dataLookStyles}
         onClick={dataStyleState.toggle}
+        //????? dataStyle does not work, must use stat version here
+        // dataStyles={data}
         dataStyles={dataStyleState.getAll()}
       />
       <ControlHeader>
