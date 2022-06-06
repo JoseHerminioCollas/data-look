@@ -51,16 +51,16 @@ const convertFromCMC = (data: any) => {
   }) as Datum[]
   return ne;
 }
-const sampleList: Datum[] = convertFromCMC(lineData.data)
-const initValue = {
+const lineDatum: Datum[] = convertFromCMC(lineData.data)
+const initValue = [{
   "id": 1,
   "name": "Bitcoin",
   "symbol": "BTC",
   "slug": "bitcoin",
   "num_market_pairs": 9471,
   "date_added": "2013-04-28T00:00:00.000Z"
-}
-const datumCMC = convertFromCMC([initValue])
+}]
+const datumCMC = convertFromCMC(initValue)
 
 function App() {
   const dataStyle = DataStyle(datumCMC);
@@ -70,12 +70,14 @@ function App() {
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [showDetails, setShowdetails] = useState(false)
   useEffect(() => {
+    // listenAll
     const sub = dataStyle.listen((dS: any) => {
       setData(dataStyle.getAll())
+      // setStyleState(dataStyle.getAll())
       // setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     });
     setTimeout(() => {
-      dataStyle.setAll(sampleList)
+      dataStyle.setAll(lineDatum)
     }, 1000)
     /*
     axios.get(`https://goatstone.com/info`)
@@ -110,12 +112,12 @@ function App() {
       <DataLook
         className={dataLookStyles}
         onClick={dataStyleState.toggle}
-        dataStyles={data}
+        dataStyles={dataStyleState.getAll()}
       />
       <ControlHeader>
         <h3 className={headerStyles}>DataLook</h3>
         <PopUpSelect
-          entries={dataStyle.getAll()}
+          entries={dataStyleState.getAll()}
           onChange={onSelectChange}
           className='selectorStyles'
         />
