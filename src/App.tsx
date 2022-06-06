@@ -77,16 +77,23 @@ function App() {
       // setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
     });
     setTimeout(() => {
-      setA('zzzz')
+      // a redraw has to be triggered
+      // setA('z')
       dataStyle.setAll(lineDatum)
+      // setStyleState((sS: any) => {
+      //   console.log('ss',sS.getAll())
+      //   // const a = sS.setAll(lineDatum)
+      //   // return a
+      //   return sS;
+      // })
     }, 1000)
     /*
     axios.get(`https://goatstone.com/info`)
       .then(res => {
-        const a = convert(res.data.data)
+        const a = convertFromCMC(res.data.data)
         dataStyle.setAll(a)
       })
-      */
+    */
     // engine(dataStyle, 1000)
     return () => {
       sub.unsubscribe();
@@ -110,13 +117,16 @@ function App() {
   }
   return (
     <div>
-      {a}a{JSON.stringify(dataStyleState.getAll())}
+      {a}a
+      {/* {JSON.stringify(dataStyleState.getLatest())} */}
+      {/* {JSON.stringify(dataStyleState.getAll())} */}
       <DataLook
         className={dataLookStyles}
         onClick={dataStyleState.toggle}
-        //????? dataStyle does not work, must use stat version here
-        // dataStyles={data}
+        //????? dataStyle does not work, must use state version here
+        // send the state to trigger the redraw!!!!!!!
         dataStyles={dataStyleState.getAll()}
+      // dataStyles={data}
       />
       <ControlHeader>
         <h3 className={headerStyles}>DataLook</h3>
