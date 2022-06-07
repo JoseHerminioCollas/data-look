@@ -29,8 +29,6 @@ type Toggle = (id: string) => void
 type DataStyleI = (data: Data) => {
     getAll: GetAll,
     get: Get,
-    // getLatest: GetLatest,
-    // listen: Listen,
     set: Set,
     setId: SetId,
     setAll: SetAll,
@@ -60,47 +58,27 @@ const convert = (data: Data) => {
     }, {});
 }
 const DataStyle: DataStyleI = (data) => {
-    // if (data.length < 1) {return (<></>)};
-    // let items: DataStyles = convert(data)
     const items$ = new BehaviorSubject<DataStyles | Partial<DataStyles>>(convert(data))
     items$.subscribe(v => {
         console.log('items$ 1', v)
     })
-    // const itemUpdate$ = new BehaviorSubject<DatumStyle>(
-    //     Object.values(items)[0]
-    // )
-    // itemUpdate$.subscribe(v => {
-    //     console.log('itemUpdate$ 2')
-    //     if (!v) return;
-    //     // this updates the stream !!!!!
-    //     // items[v.id] = v;
-    //     const i = { ...items$.value, [v.id]: v }
-    //     // trigger the items listen to redraw
-    //     items$.next(i)
-    // })
     const getAll: GetAll = () => items$.value;
     const get: Get = id => {
-        // itemExists(id)
         if (items$.value[id] === undefined) return false;
         return items$.value[id] as DatumStyle; // type check prevents undefined, cast for TS
-    } // id the id does not exist???
-    // const getLatest = () => itemUpdate$.value;
+    }
     const set: Set = v => {
         const a = { ...items$.value, [v.id]: v }
         items$.next(a)
     }
     const setAll: SetAll = all => {
-        // only update the data here!!!
-        // items = convert(all)
         items$.next(convert(all))
-        // for a trigger
-        // set(items['2']) !!!!! TODO ???
     }
     const setId: SetId = (id, config) => {
+        // TODO prevent undefined
         const styleItem = items$.value[id]
         const newSI = { ...items$.value, [id]: { ...styleItem, ...config } } as DataStyles
         items$.next(newSI)
-        // set({ ...styleItem, ...config })
     }
     const toggle: Toggle = (id) => {
         if (!items$.value) return
@@ -113,22 +91,18 @@ const DataStyle: DataStyleI = (data) => {
             }
         }
         items$.next(newStyleItem)
-        // set({ ...styleItem, showDetails: !styleItem.showDetails })
     }
-    // const listen: Listen = cb => itemUpdate$.subscribe(v => cb(v))
     const listenItems: ListenItems = cb => items$
         .subscribe(v => cb(v))
 
     return {
         getAll,
         get,
-        // listen,
         listenItems,
         set,
         setId,
         setAll,
         toggle,
-        // getLatest,
     };
 }
 
