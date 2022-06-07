@@ -19,11 +19,11 @@ type A = { [k: string]: string }
 export type DataStyles = { [key: string]: DatumStyle };
 type GetAll = () => DataStyles | {};
 type Get = (id: string) => DatumStyle | boolean;
-type GetLatest = () => DatumStyle;
-type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
+// type GetLatest = () => DatumStyle;
+// type Listen = (cb: (item: DatumStyle) => void) => { unsubscribe: () => void };
 type ListenItems = (cb: (items: DataStyles | Partial<DataStyles>) => void) => { unsubscribe: () => void }
 type Set = (item: DatumStyle) => void
-type SetId = (id: string, config: { [key: string]: number | string | boolean }) => void;
+type SetId = (id: string, config: { [key: string]: number | string | boolean }) => boolean;
 type SetAll = (all: Data) => void
 type Toggle = (id: string) => void
 type DataStyleI = (data: Data) => {
@@ -59,26 +59,24 @@ const convert = (data: Data) => {
 }
 const DataStyle: DataStyleI = (data) => {
     const items$ = new BehaviorSubject<DataStyles | Partial<DataStyles>>(convert(data))
-    items$.subscribe(v => {
-        console.log('items$ 1', v)
-    })
     const getAll: GetAll = () => items$.value;
     const get: Get = id => {
         if (items$.value[id] === undefined) return false;
         return items$.value[id] as DatumStyle; // type check prevents undefined, cast for TS
     }
     const set: Set = v => {
-        const a = { ...items$.value, [v.id]: v }
-        items$.next(a)
+        // const a = { ...items$.value, [v.id]: v }
+        items$.next({ ...items$.value, [v.id]: v })
     }
     const setAll: SetAll = all => {
         items$.next(convert(all))
     }
     const setId: SetId = (id, config) => {
-        // TODO prevent undefined
+        if (items$.value[id] === undefined) return false;
         const styleItem = items$.value[id]
         const newSI = { ...items$.value, [id]: { ...styleItem, ...config } } as DataStyles
         items$.next(newSI)
+        return true;
     }
     const toggle: Toggle = (id) => {
         if (!items$.value) return

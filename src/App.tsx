@@ -73,16 +73,16 @@ function App() {
       if (!v) return
       setData(v)
     })
-    setTimeout(() => {
-      dataStyle.setAll(lineDatum)
-    }, 1000)
-    /*
+    // setTimeout(() => {
+    //   dataStyle.setAll(lineDatum)
+    // }, 1000)
+    // /*
     axios.get(`https://goatstone.com/info`)
       .then(res => {
         const a = convertFromCMC(res.data.data)
         dataStyle.setAll(a)
       })
-    */
+    // */
     // engine(dataStyle, 1000)
     // return () => {
     //   sub.unsubscribe();
