@@ -4,7 +4,7 @@ import { DataStyles } from 'data-style';
 import DataLookItem from 'components/data-look/data-look-item';
 
 type DataLookI = (props: {
-  dataStyles: DataStyles,
+  dataStyles: DataStyles | Partial<DataStyles>,
   onClick?: (k: string) => void
   className: string
 }) => React.ReactElement
@@ -67,6 +67,7 @@ const DataLook: DataLookI = ({
   <div className={[dataLookStyles, className].join(' ')}>
     {
       Object.entries(dataStyles).map(([k, v]) => {
+        if (!v) return null
         const { id, name, ...details } = v.data;
 
         return (

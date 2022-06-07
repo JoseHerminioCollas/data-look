@@ -2,7 +2,7 @@ import React from 'react';
 import { DataStyles } from 'data-style';
 
 type PopUpSelectI = ({ entries, onChange }: {
-  entries: DataStyles,
+  entries: DataStyles | Partial<DataStyles>,
   onChange: (id: string) => void
   className: string
 }) => React.ReactElement
@@ -17,8 +17,10 @@ const PopUpSelect: PopUpSelectI = ({ entries, onChange, className }) => (
       Select an Item
     </option>
     {Object.entries(entries)
-      .map(([key, value]) => (
-        <option key={key} value={value.id}>{value.data.name}</option>))}
+      .map(([key, value]) => {
+        if (!value) return null;
+        return (<option key={key} value={value.id}>{value.data.name}</option>);
+      })}
   </select>
 );
 

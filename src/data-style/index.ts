@@ -1,4 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
+import convert from 'data-style/convert';
 
 export interface Datum {
   id: string
@@ -33,26 +34,7 @@ export interface DataStyleAPI {
   listenItems: ListenItems
 }
 export type DataStyleI = (data: Data) => DataStyleAPI;
-const initV: DatumStyle = {
-  id: 'x',
-  background: '#eee',
-  isVisible: true,
-  showDetails: false,
-  size: 'SML',
-  data: { id: 'x', name: 'x' },
-};
-const convert = (data: Data) => data.reduce((acc, v) => {
-  const { id, ...rest } = v;
-  return {
-    ...acc,
-    [String(v.id)]:
-    {
-      ...initV,
-      id: String(v.id),
-      data: rest,
-    },
-  };
-}, {});
+
 const DataStyle: DataStyleI = (data) => {
   const items$ = new BehaviorSubject<DataStyles | Record<string, never>>(convert(data));
   const getAll: GetAll = () => items$.value;

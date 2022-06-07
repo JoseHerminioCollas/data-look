@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Toggle, mergeStyles } from '@fluentui/react';
-import DataStyle, { Datum } from 'data-style';
+import DataStyle, { DataStyleAPI, DataStyles, Datum } from 'data-style';
 import DataLook from 'components/data-look';
 import ControlHeader from 'components/control-header';
 import PopUpSelect from 'components/pop-up-select';
 import lineData from 'data-b';
+import convertFromCMC from 'convert-from-cmc';
 
 const MODE = 'local';
 const dataLookStyles = mergeStyles({
@@ -27,28 +28,6 @@ const toggleStyles = {
   },
 };
 
-// convert data in file to a format DataStyle will accept
-/* eslint-disable */
-const convertFromCMC = (data: any): Datum[] => {
-  if (data === undefined) throw new Event('no data provided')
-  // use any and trhow errors it the type is not correct
-  const ne = data.map((lD: any) => {
-    if (!lD) return []; //[k, v]: [string, any ]
-    const newEntries = Object.entries(lD).reduce(
-      (acc, [k, v]: [any, any], i) => {
-        let val = v;
-        if (k === 'id') val = String(v);
-        else if (v === null) val = ' - ';
-        else if (k === 'quote') val = v?.USD.price;
-        else if (typeof v !== 'number' && typeof v !== 'string') {
-          return acc;
-        }
-        return { ...acc, [k]: val };
-      }, {}) as Datum;
-    return { ...newEntries, id: String(newEntries.id) };
-  }) as Datum[];
-  return ne;
-};
 const lineDatum: Datum[] = convertFromCMC(lineData.data);
 const initValue = [{
   id: 1,
@@ -64,7 +43,7 @@ function App() {
   const dataStyle = DataStyle(datumCMC);
   // preserve dataStyle in state
   const [dataStyleState] = useState(dataStyle);
-  const [data, setData] =  useState<any>(dataStyle.getAll());
+  const [data, setData] = useState<DataStyles | Partial<DataStyles>>(dataStyle.getAll());
   const [selectedItem, setSelectedItem] = useState<string>('');
   const [showDetails, setShowdetails] = useState(false);
   useEffect(() => {
