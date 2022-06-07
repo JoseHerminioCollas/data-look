@@ -6,8 +6,8 @@ import DataLook from 'components/data-look';
 import ControlHeader from 'components/control-header';
 import PopUpSelect from 'components/pop-up-select';
 import lineData from 'data-b';
-// import engine from 'engine';
 
+const MODE = 'local'
 const dataLookStyles = mergeStyles({
   selectors: {
     ' > div': {
@@ -36,10 +36,12 @@ const toggleStyles = {
 // convert data in file to a format DataStyle will accept
 const convertFromCMC = (data: any) => {
   const ne: Datum[] = data.map((lD: any) => {
-    const newEntries = Object.entries(lD).reduce((acc, [k, v], i) => {
+    const newEntries = Object.entries(lD).reduce((acc, [k, v]: [any, any], i) => {
       let val = v
+      // const price = v?.USD ? v.USD.price: '';
       if (k === 'id') val = String(v)
       else if (v === null) val = ' - '
+      else if (k === 'quote') val = v.USD.price //? v.USD.price: ''
       else if (typeof v !== 'number' && typeof v !== 'string') {
         return acc
       }
@@ -63,7 +65,7 @@ const datumCMC = convertFromCMC(initValue)
 function App() {
   const dataStyle = DataStyle(datumCMC);
   // preserve dataStyle in state
-  const [dataStyleState, setStyleState] = useState(dataStyle)
+  const [dataStyleState] = useState(dataStyle)
   const [data, setData] = useState(dataStyle.getAll())
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
   const [showDetails, setShowdetails] = useState(false)
@@ -73,20 +75,17 @@ function App() {
       if (!v) return
       setData(v)
     })
-    setTimeout(() => {
-      dataStyle.setAll(lineDatum)
-    }, 1000)
-    // /*
-    // axios.get(`https://goatstone.com/info`)
-    //   .then(res => {
-    //     const a = convertFromCMC(res.data.data)
-    //     dataStyle.setAll(a)
-    //   })
-    // */
-    // engine(dataStyle, 1000)
-    // return () => {
-    //   sub.unsubscribe();
-    // }
+    if (MODE === 'local') {
+      setTimeout(() => {
+        dataStyle.setAll(lineDatum)
+      }, 1000)
+    } else {
+      axios.get(`https://goatstone.com/info`)
+        .then(res => {
+          const a = convertFromCMC(res.data.data)
+          dataStyle.setAll(a)
+        })
+    }
   }, [])
   useEffect(() => {
     // const a = dataStyleState.getLatest()

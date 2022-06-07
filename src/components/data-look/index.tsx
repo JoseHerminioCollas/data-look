@@ -23,6 +23,7 @@ const dataLookStyles = mergeStyles({
       transitionProperty: 'background',
       transitionDuration: '1s',
       margin: '0.25em',
+      minWidth: '10em',
     },
     ' dl': {
       display: 'flex',
@@ -77,7 +78,8 @@ const DataLook: DataLookI = ({
             onClick={() => onClick(k)}
           >
             <h3 className={v.showDetails ? 'small' : 'large'}>
-              {name}
+              {name}  <br />
+              <span style={{fontSize: '0.7em'}}>{details.quote}</span>
             </h3>
             <DataLookItem
               data={details}
