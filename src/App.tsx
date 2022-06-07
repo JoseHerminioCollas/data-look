@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Toggle, mergeStyles } from '@fluentui/react';
-import DataStyle, { Data, Datum } from 'data-style';
+import DataStyle, { Datum } from 'data-style';
 import DataLook from 'components/data-look';
 import ControlHeader from 'components/control-header';
 import PopUpSelect from 'components/pop-up-select';
@@ -15,12 +15,6 @@ const dataLookStyles = mergeStyles({
     },
   },
 });
-const selectorStyles = mergeStyles(
-  {
-    fontSize: '1.1em',
-    margin: '0 1.5em'
-  }
-)
 const headerStyles = mergeStyles(
   {
     margin: '0 2em'
@@ -91,7 +85,7 @@ function App() {
     if (item && selectedItem === item.id) {
       setShowdetails(item.showDetails)
     }
-  }, [data])
+  }, [data, dataStyleState])
   const onSelectChange = (id: string) => {
     setSelectedItem(id)
     const item = dataStyleState.get(id)

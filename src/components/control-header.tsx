@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Toggle, mergeStyles } from '@fluentui/react';
+import React from 'react';
+import { mergeStyles } from '@fluentui/react';
 
 type ControlHeaderI = ({ children }: { children: React.ReactElement[] }) => React.ReactElement;
 const controlAreaStyles = mergeStyles({
