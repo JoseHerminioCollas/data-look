@@ -67,9 +67,8 @@ function App() {
   // preserve dataStyle in state
   const [dataStyleState] = useState(dataStyle)
   const [data, setData] = useState(dataStyle.getAll())
-  const [selectedItem, setSelectedItem] = useState<string | null>(null)
+  const [selectedItem, setSelectedItem] = useState<string>('')
   const [showDetails, setShowdetails] = useState(false)
-  const [a, setA] = useState('a')
   useEffect(() => {
     dataStyle.listenItems(v => {
       if (!v) return
@@ -88,24 +87,26 @@ function App() {
     }
   }, [])
   useEffect(() => {
-    // const a = dataStyleState.getLatest()
-    // if (selectedItem === a.id) {
-    //   setShowdetails(a.showDetails)
-    // }
+    const item = dataStyleState.get(selectedItem)
+    if (item && selectedItem === item.id) {
+      setShowdetails(item.showDetails)
+    }
   }, [data])
   const onSelectChange = (id: string) => {
-    // setSelectedItem(id)
-    // setShowdetails(dataStyleState.get(id).showDetails)
+    setSelectedItem(id)
+    const item = dataStyleState.get(id)
+    if (item) {
+      setShowdetails(item.showDetails)
+    }
   }
-  function onToggleChange(ev: React.MouseEvent<HTMLElement>, checked?: boolean) {
+  const onToggleChange = (ev: React.MouseEvent<HTMLElement>, checked?: boolean) => {
     if (!selectedItem || checked === undefined) return
     setShowdetails(checked)
-    // have to use the state version here
     dataStyleState.setId(selectedItem, { showDetails: checked })
   }
+
   return (
     <div>
-      {a}a
       <DataLook
         className={dataLookStyles}
         onClick={dataStyleState.toggle}

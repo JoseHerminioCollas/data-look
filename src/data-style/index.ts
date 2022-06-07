@@ -16,7 +16,7 @@ export interface DatumStyle {
 }
 export type DataStyles = { [key: string]: DatumStyle };
 type GetAll = () => DataStyles | {};
-type Get = (id: string) => DatumStyle | boolean;
+type Get = (id: string) => DatumStyle | undefined;
 type ListenItems = (cb: (items: DataStyles | Partial<DataStyles>) => void) => { unsubscribe: () => void }
 type Set = (item: DatumStyle) => void
 type SetId = (id: string, config: { [key: string]: number | string | boolean }) => boolean;
@@ -57,7 +57,7 @@ const DataStyle: DataStyleI = (data) => {
     const items$ = new BehaviorSubject<DataStyles | Partial<DataStyles>>(convert(data))
     const getAll: GetAll = () => items$.value;
     const get: Get = id => {
-        if (items$.value[id] === undefined) return false;
+        if (items$.value[id] === undefined) return;
         return items$.value[id] as DatumStyle; // type check prevents undefined, cast for TS
     }
     const set: Set = v => {
