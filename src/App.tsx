@@ -79,13 +79,13 @@ function App() {
       setData(v)
       console.log('listenItems', v)
     })
-    const sub = dataStyle.listen((dS: any) => {
-      console.log('listen' ,dataStyle.getAll())
-      // why does this trigger a update of the style????
-      // setData(dataStyle.getAll())
-      // setA('z')
-      // setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
-    });
+    // const sub = dataStyle.listen((dS: any) => {
+    //   console.log('listen' ,dataStyle.getAll())
+    //   // why does this trigger a update of the style????
+    //   // setData(dataStyle.getAll())
+    //   // setA('z')
+    //   // setData(dataStyles => ({ ...dataStyles, [dS.id]: dS }))
+    // });
     /*
       dS.listenAll(all => setData(all))
     */
@@ -114,19 +114,19 @@ function App() {
       })
     */
     // engine(dataStyle, 1000)
-    return () => {
-      sub.unsubscribe();
-    }
+    // return () => {
+    //   sub.unsubscribe();
+    // }
   }, [])
   useEffect(() => {
-    const a = dataStyleState.getLatest()
-    if (selectedItem === a.id) {
-      setShowdetails(a.showDetails)
-    }
+    // const a = dataStyleState.getLatest()
+    // if (selectedItem === a.id) {
+    //   setShowdetails(a.showDetails)
+    // }
   }, [data])
   const onSelectChange = (id: string) => {
-    setSelectedItem(id)
-    setShowdetails(dataStyleState.get(id).showDetails)
+    // setSelectedItem(id)
+    // setShowdetails(dataStyleState.get(id).showDetails)
   }
   function onToggleChange(ev: React.MouseEvent<HTMLElement>, checked?: boolean) {
     if (!selectedItem || checked === undefined) return

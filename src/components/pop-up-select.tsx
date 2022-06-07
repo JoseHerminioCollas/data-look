@@ -9,12 +9,12 @@ type PopUpSelectI = ({ entries, onChange }: {
 }) => React.ReactElement
 
 const PopUpSelect: PopUpSelectI = ({ entries, onChange, dataStyle, className }) => {
-  dataStyle.listen( (e: any) => {
-    // console.log('abc')
-  })
+  // dataStyle.listen( (e: any) => {
+  //   // console.log('abc')
+  // })
   return (
     <>
-    {JSON.stringify(dataStyle.getLatest()).length}
+    {/* {JSON.stringify(dataStyle.getLatest()).length} */}
     <select
       name="select"
       onChange={({ target }) => onChange(target.value)}
