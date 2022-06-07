@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 import { mergeStyles } from '@fluentui/react';
-import { DataStyles } from 'data-style'
+import { DataStyles } from 'data-style';
 import DataLookItem from 'components/data-look/data-look-item';
 
 type DataLookI = (props: {
@@ -45,51 +45,56 @@ const dataLookStyles = mergeStyles({
       overflow: 'hidden',
     },
     '.small': {
-      fontSize: '1em'
+      fontSize: '1em',
     },
     '.large': {
       fontSize: '1.3em',
-      margin: 0
+      margin: 0,
     },
     'dt::after ': {
-      content: ' : '
+      content: ' : ',
     },
-    'dd': {
-      margin: '0 0.5em'
-    }
+    dd: {
+      margin: '0 0.5em',
+    },
   },
 });
 const DataLook: DataLookI = ({
   dataStyles,
-  onClick = () => { },
+  onClick = () => undefined,
   className,
-}) => {
-  return (<div className={[dataLookStyles, className].join(' ')}  >
+}) => (
+  <div className={[dataLookStyles, className].join(' ')}>
     {
       Object.entries(dataStyles).map(([k, v]) => {
-        const { id, name, ...details } = v.data
+        const { id, name, ...details } = v.data;
 
         return (
           <div
+            role="button"
+            tabIndex={0}
             key={k}
             style={{
-              background: v.background
+              background: v.background,
             }}
             onClick={() => onClick(k)}
+            onKeyDown={() => onClick(k)}
           >
             <h3 className={v.showDetails ? 'small' : 'large'}>
-              {name}  <br />
-              <span style={{fontSize: '0.7em'}}>{details.quote}</span>
+              {name}
+              {' '}
+              <br />
+              <span style={{ fontSize: '0.7em' }}>{details.quote}</span>
             </h3>
             <DataLookItem
               data={details}
               show={v.showDetails}
             />
           </div>
-        )
+        );
       })
     }
-  </div>)
-}
+  </div>
+);
 
 export default DataLook;

@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DataLook from 'components/data-look';
 import DataStyle from 'data-style';
 
 test('renders learn react link', () => {
-  const expected = 'xxx'
+  const expected = 'xxx';
   const data = [{
     id: 'xx',
-    name: expected
-  }]
+    name: expected,
+  }];
   const dataStyle = DataStyle(data);
   render(<DataLook
     dataStyles={dataStyle.getAll()}

@@ -12,15 +12,12 @@ const controlAreaStyles = mergeStyles({
   backgroundColor: '#ccc',
   opacity: '0.9',
   padding: '0.25em',
-})
+});
 
-const ControlHeader: ControlHeaderI = ({ children }) => {
-  return (
-    <div className={controlAreaStyles}>
-      {children}
-    </div>
-  )
-}
+const ControlHeader: ControlHeaderI = ({ children }) => (
+  <div className={controlAreaStyles}>
+    {children}
+  </div>
+);
 
 export default ControlHeader;
-

@@ -1,3 +1,4 @@
+/* eslint @typescript-eslint/triple-slash-reference: [0]  */
 /// <reference types="node" />
 /// <reference types="react" />
 /// <reference types="react-dom" />
