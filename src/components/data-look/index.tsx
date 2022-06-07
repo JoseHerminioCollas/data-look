@@ -67,7 +67,7 @@ const DataLook: DataLookI = ({
   <div className={[dataLookStyles, className].join(' ')}>
     {
       Object.entries(dataStyles).map(([k, v]) => {
-        if (!v) return null
+        if (!v) return null;
         const { id, name, ...details } = v.data;
 
         return (
@@ -79,7 +79,7 @@ const DataLook: DataLookI = ({
               background: v.background,
             }}
             onClick={() => onClick(k)}
-            onKeyDown={() => onClick(k)}
+            onKeyDown={() => undefined}
           >
             <h3 className={v.showDetails ? 'small' : 'large'}>
               {name}

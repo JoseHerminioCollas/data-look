@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Toggle, mergeStyles } from '@fluentui/react';
-import DataStyle, { DataStyleAPI, DataStyles, Datum } from 'data-style';
+import DataStyle, { DataStyles, Datum } from 'data-style';
 import DataLook from 'components/data-look';
 import ControlHeader from 'components/control-header';
 import PopUpSelect from 'components/pop-up-select';
 import lineData from 'data-b';
 import convertFromCMC from 'convert-from-cmc';
 
-const MODE = 'local';
+const modes = { local: 'LOCAL', wire: 'WIRE' };
+const mode = modes.wire;
 const dataLookStyles = mergeStyles({
   selectors: {
     ' > div': {
@@ -27,20 +28,10 @@ const toggleStyles = {
     maxWidth: '300px',
   },
 };
-
 const lineDatum: Datum[] = convertFromCMC(lineData.data);
-const initValue = [{
-  id: 1,
-  name: 'Bitcoin',
-  symbol: 'BTC',
-  slug: 'bitcoin',
-  num_market_pairs: 9471,
-  date_added: '2013-04-28T00:00:00.000Z',
-}];
-const datumCMC = convertFromCMC(initValue);
 
 function App() {
-  const dataStyle = DataStyle(datumCMC);
+  const dataStyle = DataStyle([]);
   // preserve dataStyle in state
   const [dataStyleState] = useState(dataStyle);
   const [data, setData] = useState<DataStyles | Partial<DataStyles>>(dataStyle.getAll());
@@ -51,7 +42,7 @@ function App() {
       if (!v) return;
       setData(v);
     });
-    if (MODE === 'local') {
+    if (mode === modes.local) {
       setTimeout(() => {
         dataStyle.setAll(lineDatum);
       }, 1000);
