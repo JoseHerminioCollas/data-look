@@ -16,17 +16,41 @@ import convertFromCMC from 'convert-from-cmc';
 const modes = { local: 'LOCAL', wire: 'WIRE' };
 const mode = modes.wire;
 const dataLookStyles = mergeStyles({
+  fontSize: '0.8em',
   selectors: {
     ' > div': {
+      margin: '1px',
       color: '#333',
+      padding: '0.3em',
+      dl: {
+        fontSize: '0.8em',
+        color: '#333',
+      },
     },
   },
 });
 const headerStyles = mergeStyles(
   {
-    margin: '0 2em',
+    display: 'flex',
+    alignItems: 'center',
   },
 );
+const controlStyle = mergeStyles({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  margin: '0px 3em',
+  selectors: {
+    select: {
+      fontSize: '1.4em',
+      margin: '1em',
+      borderRadius: '0.5em',
+      padding: '0.1em',
+      color: '#222',
+    },
+  },
+});
 const toggleStyles = {
   root: {
     margin: '0 30px 20px 0',
@@ -58,7 +82,11 @@ const cancelIconClass = mergeStyles({
 });
 const lastUpdateStyle = mergeStyles({
   fontSize: '0.7em',
-  padding: '0.5em',
+  selectors: {
+    span: {
+      fontWeight: 900,
+    },
+  },
 });
 const modalHeaderStyle = mergeStyles({
   background: '#ccc',
@@ -69,7 +97,6 @@ const modalHeaderStyle = mergeStyles({
   padding: '0 0.5em',
   borderRadius: '0.5em',
 });
-const lastUpdatedStyle = mergeStyles({ background: 'red' });
 const lineDatum: Datum[] = convertFromCMC(lineData.data);
 
 function App() {
@@ -135,33 +162,40 @@ function App() {
         dataStyles={data}
       />
       <ControlHeader>
-        <h3 className={headerStyles}>DataLook</h3>
-        <div className={lastUpdateStyle}>
-          <p>Reload page for latest data. Data updates every 15 minutes</p>
-          Last&nbsp;Updated:&nbsp;
-          {lastUpdated}
+        <h3 className={headerStyles}>
+          DataLook
+          <FontIcon
+            onClick={() => setIsModalOpen(true)}
+            aria-label="Information"
+            iconName="info"
+            className={infoIconClass}
+          />
+        </h3>
+        <div className={controlStyle}>
+          <div className={lastUpdateStyle}>
+            <span>
+              {dataStyleState.get(selectedItem)?.data.name}
+              &nbsp;Last&nbsp;Updated:&nbsp;
+            </span>
+            {lastUpdated}
+            <p>Reload page for latest data. Data updates every 15 minutes</p>
+          </div>
+          <PopUpSelect
+            entries={data}
+            onChange={onSelectChange}
+            className="selectorStyles"
+            val={selectedItem}
+          />
+          <Toggle
+            styles={toggleStyles}
+            checked={showDetails}
+            label="Show Details"
+            defaultChecked
+            onText="On"
+            offText="Off"
+            onChange={onToggleChange}
+          />
         </div>
-        <PopUpSelect
-          entries={data}
-          onChange={onSelectChange}
-          className="selectorStyles"
-          val={selectedItem}
-        />
-        <Toggle
-          styles={toggleStyles}
-          checked={showDetails}
-          label="Show Details"
-          defaultChecked
-          onText="On"
-          offText="Off"
-          onChange={onToggleChange}
-        />
-        <FontIcon
-          onClick={() => setIsModalOpen(true)}
-          aria-label="Information"
-          iconName="info"
-          className={infoIconClass}
-        />
       </ControlHeader>
       <Modal
         titleAriaId="Goatstone Information"

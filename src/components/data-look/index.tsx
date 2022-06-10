@@ -17,6 +17,9 @@ const dataLookStyles = mergeStyles({
   cursor: 'pointer',
   height: 360,
   selectors: {
+    'h3 span': {
+      fontSize: '0.7em',
+    },
     '>div': {
       color: '#111',
       padding: '0.5em',
@@ -46,6 +49,7 @@ const dataLookStyles = mergeStyles({
     },
     '.small': {
       fontSize: '1em',
+      margin: '0 0 0.5em 0',
     },
     '.large': {
       fontSize: '1.3em',
@@ -85,7 +89,7 @@ const DataLook: DataLookI = ({
               {name}
               {' '}
               <br />
-              <span style={{ fontSize: '0.7em' }}>{details.quote}</span>
+              <span>{details.quote}</span>
             </h3>
             <DataLookItem
               data={details}
