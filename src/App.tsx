@@ -58,6 +58,7 @@ const toggleStyles = {
   },
 };
 const modalClass = mergeStyles({
+  textAlign: 'center',
   background: '#eee',
   borderRadius: '1em',
   margin: '0 0.35em',
@@ -215,8 +216,9 @@ function App() {
             />
           </div>
           <article>
+            <img src="/logo.svg" alt="logo" width="200" />
             <p>
-              Viewing Data
+              Patterns in JavaScript for the display of data
             </p>
             Git Hub :&nbsp;
             <a href="https://github.com/JoseHerminioCollas/data-view">
