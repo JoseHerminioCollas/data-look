@@ -12,6 +12,7 @@ import ControlHeader from 'components/control-header';
 import PopUpSelect from 'components/pop-up-select';
 import lineData from 'data-b';
 import convertFromCMC from 'convert-from-cmc';
+import dataA from 'data-c';
 
 const modes = { local: 'LOCAL', wire: 'WIRE' };
 const mode = modes.wire;
@@ -41,7 +42,12 @@ const controlStyle = mergeStyles({
   justifyContent: 'space-between',
   alignItems: 'center',
   margin: '0px 3em',
+  padding: '0.25em',
   selectors: {
+    h3: {
+      display: 'inline',
+      padding: '0.25em',
+    },
     select: {
       fontSize: '1.4em',
       margin: '1em',
@@ -99,11 +105,17 @@ const modalHeaderStyle = mergeStyles({
   borderRadius: '0.5em',
 });
 const lineDatum: Datum[] = convertFromCMC(lineData.data);
+const dataB: Datum[] = dataA.map((e) => (
+  Object.entries(e).reduce((acc, [k, v]) => {
+    if (typeof v !== 'string') return acc;
+    return { ...acc, [k]: v };
+  }, {})
+)) as Datum[];
 
 function App() {
   initializeIcons();
 
-  const dataStyle = DataStyle([]);
+  const dataStyle = DataStyle(dataB);
   // preserve dataStyle in state
   const [dataStyleState] = useState(dataStyle);
   const [data, setData] = useState<DataStyles | Partial<DataStyles>>(dataStyle.getAll());
@@ -118,10 +130,6 @@ function App() {
       setData(v);
     });
     if (mode === modes.local) {
-      setTimeout(() => {
-        dataStyle.setAll(lineDatum);
-      }, 1000);
-    } else {
       axios.get('http://localhost:3030/info')
         .then((res) => {
           const a = convertFromCMC(res.data.data);
@@ -174,12 +182,14 @@ function App() {
         </h3>
         <div className={controlStyle}>
           <div className={lastUpdateStyle}>
-            <span>
-              {dataStyleState.get(selectedItem)?.data.name}
-              &nbsp;Last&nbsp;Updated:&nbsp;
-            </span>
-            {lastUpdated}
-            <p>Reload page for latest data. Data updates every 15 minutes</p>
+            <article>
+              <h3>Meteorite Landings</h3>
+              This comprehensive data set from The Meteoritical Society contains
+              information on all of the known meteorite landings.
+              from
+              &nbsp;
+              <a href="https://data.nasa.gov">https://data.nasa.gov</a>
+            </article>
           </div>
           <PopUpSelect
             entries={data}
