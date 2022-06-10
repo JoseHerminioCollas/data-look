@@ -7,3 +7,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+.modal-header {
+  background: #ccc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 1.5em 0;
+  padding: 0 0.5em;
+  border-radius: 0.5em;
+}
