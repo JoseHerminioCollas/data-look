@@ -4,7 +4,7 @@ import { mergeStyles } from '@fluentui/react';
 type ControlHeaderI = ({ children }: { children: React.ReactElement[] }) => React.ReactElement;
 const controlAreaStyles = mergeStyles({
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: 'space-around',
   alignItems: 'center',
   position: 'fixed',
   bottom: 0,

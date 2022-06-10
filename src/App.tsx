@@ -2,12 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
   FontIcon,
-  // IIconProps,
-  // DatePicker,
-  // defaultDatePickerStrings,
-  IconButton,
-  // Dropdown,
-  // IDropdownStyles,
   Modal,
   Toggle, mergeStyles,
 } from '@fluentui/react';
@@ -61,12 +55,21 @@ const cancelIconClass = mergeStyles({
   height: 25,
   margin: '0.5em 0.35em',
   cursor: 'pointer',
-  selectors: {
-    article: {
-      background: 'red',
-    },
-  },
 });
+const lastUpdateStyle = mergeStyles({
+  fontSize: '0.7em',
+  padding: '0.5em',
+});
+const modalHeaderStyle = mergeStyles({
+  background: '#ccc',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  margin: '0 0 1.5em 0',
+  padding: '0 0.5em',
+  borderRadius: '0.5em',
+});
+const lastUpdatedStyle = mergeStyles({ background: 'red' });
 const lineDatum: Datum[] = convertFromCMC(lineData.data);
 
 function App() {
@@ -79,6 +82,7 @@ function App() {
   const [selectedItem, setSelectedItem] = useState<string>('');
   const [showDetails, setShowdetails] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState('');
 
   useEffect(() => {
     dataStyle.listenItems((v) => {
@@ -94,6 +98,12 @@ function App() {
         .then((res) => {
           const a = convertFromCMC(res.data.data);
           dataStyle.setAll(a);
+          // set initial values of UI
+          const value = Object.values(dataStyle.getAll())[0];
+          if (value) {
+            setLastUpdated(new Date(value.data.last_updated).toUTCString());
+            setSelectedItem(value.id);
+          }
         });
     }
   }, []);
@@ -108,6 +118,7 @@ function App() {
     const item = dataStyleState.get(id);
     if (item) {
       setShowdetails(item.showDetails);
+      setLastUpdated(new Date(item.data.last_updated).toUTCString());
     }
   };
   const onToggleChange = (ev: React.MouseEvent<HTMLElement>, checked?: boolean) => {
@@ -125,10 +136,16 @@ function App() {
       />
       <ControlHeader>
         <h3 className={headerStyles}>DataLook</h3>
+        <div className={lastUpdateStyle}>
+          <p>Reload page for latest data. Data updates every 15 minutes</p>
+          Last&nbsp;Updated:&nbsp;
+          {lastUpdated}
+        </div>
         <PopUpSelect
           entries={data}
           onChange={onSelectChange}
           className="selectorStyles"
+          val={selectedItem}
         />
         <Toggle
           styles={toggleStyles}
@@ -154,7 +171,7 @@ function App() {
         containerClassName={modalClass}
       >
         <article>
-          <div className="modal-header">
+          <div className={modalHeaderStyle}>
             DataLook
             <FontIcon
               onClick={() => setIsModalOpen(false)}
