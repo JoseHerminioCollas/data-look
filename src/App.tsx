@@ -93,6 +93,9 @@ const lastUpdateStyle = mergeStyles({
     span: {
       fontWeight: 900,
     },
+    p: {
+      margin: '0.2em',
+    },
   },
 });
 const modalHeaderStyle = mergeStyles({
@@ -174,9 +177,8 @@ function App() {
           <div className={lastUpdateStyle}>
             <article>
               <h3>Meteorite Landings</h3>
-              This comprehensive data set from The Meteoritical Society contains
-              information on all of the known meteorite landings.
-              from
+              <p>This comprehensive data set from The Meteoritical Society contains</p>
+              <p>information on all of the known meteorite landings.</p>
               &nbsp;
               <a href="https://data.nasa.gov">https://data.nasa.gov</a>
             </article>
