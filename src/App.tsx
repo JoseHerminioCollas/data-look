@@ -6,16 +6,17 @@ import {
   Toggle, mergeStyles,
 } from '@fluentui/react';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
-import DataStyle, { DataStyles, Datum } from 'data-style';
+import DataStyle, { Data, DataStyles, Datum } from 'data-style';
 import DataLook from 'components/data-look';
 import ControlHeader from 'components/control-header';
 import PopUpSelect from 'components/pop-up-select';
 import lineData from 'data-b';
 import convertFromCMC from 'convert-from-cmc';
 import dataA from 'data-c';
+import convertStringKey from 'convert-string-key';
 
 const modes = { local: 'LOCAL', wire: 'WIRE' };
-const mode = modes.wire;
+const mode = modes.local;
 const dataLookStyles = mergeStyles({
   fontSize: '0.8em',
   selectors: {
@@ -105,16 +106,15 @@ const modalHeaderStyle = mergeStyles({
   borderRadius: '0.5em',
 });
 const lineDatum: Datum[] = convertFromCMC(lineData.data);
-const dataB: Datum[] = dataA.map((e) => (
+const dataB = convertStringKey(dataA);
+const dataC = dataA.map((e: any) => (
   Object.entries(e).reduce((acc, [k, v]) => {
     if (typeof v !== 'string') return acc;
     return { ...acc, [k]: v };
   }, {})
-)) as Datum[];
-
+));
 function App() {
   initializeIcons();
-
   const dataStyle = DataStyle(dataB);
   // preserve dataStyle in state
   const [dataStyleState] = useState(dataStyle);
@@ -129,7 +129,7 @@ function App() {
       if (!v) return;
       setData(v);
     });
-    if (mode === modes.local) {
+    if (mode === modes.wire) {
       axios.get('http://localhost:3030/info')
         .then((res) => {
           const a = convertFromCMC(res.data.data);
