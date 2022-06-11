@@ -1,4 +1,4 @@
-/* eslint-disable */ 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const convertStringKey = (data: any) => {
   if (!data) throw new Error('no data provided');
   return data.map((e: any) => (

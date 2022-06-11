@@ -6,11 +6,10 @@ import {
   Toggle, mergeStyles,
 } from '@fluentui/react';
 import { initializeIcons } from '@fluentui/font-icons-mdl2';
-import DataStyle, { Data, DataStyles, Datum } from 'data-style';
+import DataStyle, { DataStyles } from 'data-style';
 import DataLook from 'components/data-look';
 import ControlHeader from 'components/control-header';
 import PopUpSelect from 'components/pop-up-select';
-import lineData from 'data-b';
 import convertFromCMC from 'convert-from-cmc';
 import dataA from 'data-c';
 import convertStringKey from 'convert-string-key';
@@ -105,14 +104,8 @@ const modalHeaderStyle = mergeStyles({
   padding: '0 0.5em',
   borderRadius: '0.5em',
 });
-const lineDatum: Datum[] = convertFromCMC(lineData.data);
 const dataB = convertStringKey(dataA);
-const dataC = dataA.map((e: any) => (
-  Object.entries(e).reduce((acc, [k, v]) => {
-    if (typeof v !== 'string') return acc;
-    return { ...acc, [k]: v };
-  }, {})
-));
+
 function App() {
   initializeIcons();
   const dataStyle = DataStyle(dataB);
@@ -122,7 +115,6 @@ function App() {
   const [selectedItem, setSelectedItem] = useState<string>('');
   const [showDetails, setShowdetails] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [lastUpdated, setLastUpdated] = useState('');
 
   useEffect(() => {
     dataStyle.listenItems((v) => {
@@ -137,7 +129,6 @@ function App() {
           // set initial values of UI
           const value = Object.values(dataStyle.getAll())[0];
           if (value) {
-            setLastUpdated(new Date(value.data.last_updated).toUTCString());
             setSelectedItem(value.id);
           }
         });
@@ -154,7 +145,6 @@ function App() {
     const item = dataStyleState.get(id);
     if (item) {
       setShowdetails(item.showDetails);
-      setLastUpdated(new Date(item.data.last_updated).toUTCString());
     }
   };
   const onToggleChange = (ev: React.MouseEvent<HTMLElement>, checked?: boolean) => {
